@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CogniSync — Prototipo v1</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --panel:#ffffff; --ink:#1d2433; --muted:#667085; --line:#e3e6ec;
+    --brand:#2f5d8a; --brand-soft:#e8eff6; --ok:#2e7d4f; --ok-soft:#e6f3ec;
+    --warn:#b4581b; --warn-soft:#fbeee4; --danger:#b42318; --danger-soft:#fdecea;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.45 "Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--bg)}
+  .screen{display:none;min-height:100vh}
+  .screen.on{display:flex}
+  /* layout */
+  .side{width:220px;background:#1f3550;color:#dbe4ee;padding:18px 14px;display:flex;flex-direction:column;gap:4px;flex-shrink:0}
+  .brand{font-weight:700;font-size:18px;color:#fff;margin:0 6px 18px;letter-spacing:.2px}
+  .brand small{display:block;font-weight:400;font-size:11px;color:#9fb3c8}
+  .nav a{display:block;padding:8px 10px;border-radius:6px;color:#dbe4ee;text-decoration:none}
+  .nav a.act{background:#2f5d8a;color:#fff}
+  .side .who{margin-top:auto;font-size:12px;color:#9fb3c8;border-top:1px solid #34506f;padding-top:10px}
+  .main{flex:1;padding:22px 28px;min-width:0}
+  .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+  h1{font-size:20px;margin:0}
+  h2{font-size:15px;margin:0 0 10px}
+  .crumb{color:var(--muted);font-size:12px;margin-bottom:2px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .btn{display:inline-block;border:1px solid var(--line);background:#fff;color:var(--ink);padding:7px 12px;border-radius:6px;font:inherit;cursor:pointer;text-decoration:none}
+  .btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+  .btn[disabled]{opacity:.45}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  input,select,textarea{font:inherit;border:1px solid #cfd5de;border-radius:6px;padding:7px 9px;width:100%;background:#fff;color:var(--ink)}
+  label{font-size:12px;color:var(--muted);display:block;margin-bottom:3px}
+  .field{margin-bottom:10px}
+  .field.err input{border-color:var(--danger);background:var(--danger-soft)}
+  .field.err .msg{color:var(--danger);font-size:12px;margin-top:3px}
+  table{width:100%;border-collapse:collapse}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-size:12px;color:var(--muted);font-weight:600;background:#fafbfc}
+  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:var(--brand-soft);color:var(--brand);margin:0 4px 4px 0}
+  .tag.ok{background:var(--ok-soft);color:var(--ok)}
+  .tag.warn{background:var(--warn-soft);color:var(--warn)}
+  .tag.danger{background:var(--danger-soft);color:var(--danger)}
+  .tag.grey{background:#eef0f3;color:#555}
+  .alert{border-left:4px solid var(--warn);background:var(--warn-soft);padding:10px 12px;border-radius:6px;margin-bottom:14px}
+  .info{border-left:4px solid var(--brand);background:var(--brand-soft);padding:10px 12px;border-radius:6px}
+  .tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin-bottom:14px}
+  .tabs span{padding:8px 14px;color:var(--muted)}
+  .tabs span.act{color:var(--brand);border-bottom:2px solid var(--brand);font-weight:600}
+  .muted{color:var(--muted)}
+  .small{font-size:12px}
+  .kpi{font-size:24px;font-weight:700}
+  .soap h3{font-size:13px;margin:10px 0 4px;color:var(--brand)}
+  .soap textarea{min-height:58px}
+  .orig{white-space:pre-wrap;background:#fafbfc;border:1px dashed #cfd5de;border-radius:6px;padding:10px;font-size:13px}
+  /* login */
+  #login{align-items:center;justify-content:center;background:linear-gradient(160deg,#1f3550,#2f5d8a)}
+  .login{width:360px;background:#fff;border-radius:12px;padding:28px}
+  .login .brand{color:var(--brand);margin:0 0 4px;font-size:22px}
+  .login .brand small{color:var(--muted)}
+  .sep{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin:14px 0}
+  .sep:before,.sep:after{content:"";flex:1;height:1px;background:var(--line)}
+  @media (max-width:700px){
+    .screen.on{flex-direction:column}
+    body{overflow-x:hidden}
+    .screen.on{width:100vw}
+    .side{width:auto;min-width:0;max-width:100vw;flex-direction:row;align-items:center;padding:10px;overflow-x:auto}
+    .main{width:100vw}
+    .side .brand{margin:0 10px 0 0;font-size:15px}.side .brand small,.side .who{display:none}
+    .nav{display:flex}.nav a{white-space:nowrap;padding:6px 8px}
+    .main{padding:14px}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .hide-sm{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- P01 Inicio de sesión -->
+<section class="screen" id="login">
+  <div class="login">
+    <div class="brand">CogniSync<small>Gestión clínica para salud mental</small></div>
+    <p class="muted small" style="margin:14px 0 18px">Ingrese con la cuenta que le asignó el administrador de su clínica.</p>
+    <div class="field"><label>Correo electrónico</label><input value="dra.mendez@clinica-ejemplo.ec"></div>
+    <div class="field"><label>Contraseña</label><input type="password" value="••••••••••"></div>
+    <div class="info small" style="margin-bottom:12px;border-left-color:var(--danger);background:var(--danger-soft)">Credenciales inválidas. Intento 2 de 5.</div>
+    <a class="btn pri" style="width:100%;text-align:center" href="#pacientes">Iniciar sesión</a>
+    <div class="sep">fase futura</div>
+    <button class="btn" style="width:100%;margin-bottom:6px" disabled>Continuar con Google</button>
+    <button class="btn" style="width:100%" disabled>Continuar con Microsoft</button>
+  </div>
+</section>
+
+<!-- P02 Panel de pacientes -->
+<section class="screen" id="pacientes">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Inicio</div><h1>Mis pacientes</h1></div>
+      <a class="btn pri" href="#nuevo-paciente">+ Nuevo paciente</a></div>
+    <div class="alert"><b>1 paciente con riesgo de deserción.</b> Carlos Pérez Vera tiene 2 inasistencias seguidas.</div>
+    <div class="card">
+      <div class="row" style="margin-bottom:12px">
+        <input style="max-width:300px" value="per" aria-label="Buscar">
+        <select style="max-width:160px"><option>Activos</option><option>Archivados</option></select>
+        <span class="muted small">2 resultados para «per»</span>
+      </div>
+      <table>
+        <tr><th>Paciente</th><th class="hide-sm">Última sesión</th><th class="hide-sm">Próxima cita</th><th>Estado</th></tr>
+        <tr><td><a href="#expediente">Pérez Vera, Carlos</a></td><td class="hide-sm">2026-10-14</td><td class="hide-sm">2026-11-05 10:00</td><td><span class="tag warn">Riesgo de deserción</span></td></tr>
+        <tr><td><a href="#expediente">Peralta Ruiz, Ana</a></td><td class="hide-sm">2026-10-30</td><td class="hide-sm">2026-11-06 15:00</td><td><span class="tag ok">Activo</span></td></tr>
+      </table>
+    </div>
+  </main>
+</section>
+
+<!-- P03 Nuevo paciente -->
+<section class="screen" id="nuevo-paciente">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Nuevo</div><h1>Crear expediente</h1></div></div>
+    <div class="card">
+      <div class="grid2">
+        <div class="field"><label>Nombres *</label><input value="Ana María"></div>
+        <div class="field"><label>Apellidos *</label><input value="Peralta Ruiz"></div>
+        <div class="field"><label>Fecha de nacimiento *</label><input value="1994-03-12"></div>
+        <div class="field"><label>Sexo *</label><select><option>Femenino</option></select></div>
+        <div class="field err"><label>Teléfono *</label><input value=""><div class="msg">El teléfono es obligatorio.</div></div>
+        <div class="field"><label>Correo electrónico</label><input value="ana.peralta@correo-ejemplo.ec"></div>
+        <div class="field"><label>Contacto de emergencia (nombre y teléfono)</label><input value="Rosa Ruiz — 09 8765 4321"></div>
+        <div class="field"><label>Motivo de consulta *</label><input value="Ansiedad e insomnio desde hace 3 meses"></div>
+      </div>
+      <div class="field"><label>Antecedentes de consulta</label><textarea rows="3">Tratamiento psicológico previo en 2023 (6 sesiones). Sin medicación actual.</textarea></div>
+      <div class="row"><a class="btn pri" href="#expediente">Guardar</a><a class="btn" href="#pacientes">Cancelar</a><span class="muted small">* Campo obligatorio</span></div>
+    </div>
+  </main>
+</section>
+
+<!-- P04 Expediente -->
+<section class="screen" id="expediente">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Expediente</div><h1>Carlos Pérez Vera</h1></div>
+      <div class="row"><a class="btn" href="#nuevo-paciente">Editar</a><button class="btn">Archivar</button><a class="btn pri" href="#nueva-nota">+ Nueva nota</a></div></div>
+    <div class="tabs"><span class="act">Datos</span><span><a href="#citas">Citas</a></span><span><a href="#historial">Notas</a></span><span><a href="#evolucion">Evolución</a></span></div>
+    <div class="alert"><b>Riesgo de deserción:</b> 2 inasistencias seguidas (2026-10-21 y 2026-10-28).</div>
+    <div class="grid2">
+      <div class="card"><h2>Datos del paciente</h2>
+        <table>
+          <tr><td class="muted">Fecha de nacimiento</td><td>1988-07-02 (38 años)</td></tr>
+          <tr><td class="muted">Sexo</td><td>Masculino</td></tr>
+          <tr><td class="muted">Teléfono</td><td>09 9123 4567</td></tr>
+          <tr><td class="muted">Contacto de emergencia</td><td>María Vera — 09 9876 5432</td></tr>
+          <tr><td class="muted">Motivo de consulta</td><td>Estrés laboral y ataques de pánico</td></tr>
+        </table>
+        <p class="muted small" style="margin:10px 0 0">Última modificación: 2026-10-14 16:20 por Dra. Laura Méndez</p>
+      </div>
+      <div class="card"><h2>Asistencia (últimos 60 días)</h2>
+        <div class="grid3">
+          <div><div class="kpi" style="color:var(--ok)">5</div><div class="muted small">Asistidas</div></div>
+          <div><div class="kpi" style="color:var(--warn)">1</div><div class="muted small">Canceladas</div></div>
+          <div><div class="kpi" style="color:var(--danger)">2</div><div class="muted small">Inasistencias</div></div>
+        </div>
+        <p class="muted small" style="margin:12px 0 0">Citas perdidas: 3 de 8 (37,5 %). Regla activada: 2 faltas seguidas.</p>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- P05 Citas -->
+<section class="screen" id="citas">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a href="#pacientes">Pacientes</a><a class="act" href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Carlos Pérez Vera › Citas</div><h1>Citas del paciente</h1></div>
+      <button class="btn pri">+ Registrar cita</button></div>
+    <div class="card">
+      <table>
+        <tr><th>Fecha</th><th>Hora</th><th>Duración</th><th>Estado</th><th>Acción</th></tr>
+        <tr><td>2026-11-05</td><td>10:00</td><td>50 min</td><td><span class="tag">Programada</span></td><td class="muted small">No se puede marcar como asistida antes de la fecha</td></tr>
+        <tr><td>2026-10-28</td><td>10:00</td><td>50 min</td><td><span class="tag danger">Inasistencia</span></td><td><select style="max-width:150px"><option>Inasistencia</option><option>Asistida</option><option>Cancelada</option></select></td></tr>
+        <tr><td>2026-10-21</td><td>10:00</td><td>50 min</td><td><span class="tag danger">Inasistencia</span></td><td></td></tr>
+        <tr><td>2026-10-14</td><td>10:00</td><td>50 min</td><td><span class="tag ok">Asistida</span></td><td></td></tr>
+        <tr><td>2026-10-07</td><td>10:00</td><td>50 min</td><td><span class="tag grey">Cancelada</span></td><td></td></tr>
+      </table>
+      <div class="info small" style="margin-top:12px">Aviso de cruce: la cita propuesta del 2026-11-05 10:30 se cruza con otra cita de la misma terapeuta.</div>
+    </div>
+  </main>
+</section>
+
+<!-- P06 Nueva nota -->
+<section class="screen" id="nueva-nota">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Ana Peralta Ruiz › Nueva nota</div><h1>Nota de la sesión del 2026-11-03</h1></div>
+      <span class="muted small">Borrador guardado hace 12 s</span></div>
+    <div class="info" style="margin-bottom:14px"><b>Resumen de la sesión anterior (2026-10-30, nota aprobada):</b><br>
+      Refiere insomnio de conciliación 4 noches por semana. Disminuyeron los episodios de ansiedad en el trabajo.<br>
+      Se practicó respiración diafragmática. Tarea: registro de sueño diario.<br>
+      Próxima sesión: revisar registro y reestructuración cognitiva.</div>
+    <div class="card">
+      <div class="tabs"><span class="act">Texto</span><span>Dictado por voz</span><span>Foto de apuntes</span></div>
+      <textarea rows="7">Paciente llega puntual. Trae el registro de sueño: durmió entre 4 y 5 horas, 3 noches con insomnio. Dice que el lunes tuvo un ataque de pánico en el bus, duró unos 10 minutos. Ánimo 5/10. Se trabajó reestructuración de pensamientos catastróficos. Tarea: continuar registro y practicar respiración 2 veces al día.</textarea>
+      <div class="row" style="margin-top:6px;justify-content:space-between"><span class="muted small">326 / 5 000 caracteres</span></div>
+      <div class="row" style="margin-top:12px">
+        <label style="margin:0">Formato:</label>
+        <select style="max-width:180px"><option>SOAP (predeterminado)</option><option>DAP</option></select>
+        <a class="btn pri" href="#revision">Estructurar nota</a>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- P07 Revisión y aprobación -->
+<section class="screen" id="revision">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Ana Peralta Ruiz › Revisión</div><h1>Revisar nota estructurada <span class="tag grey">Borrador</span></h1></div>
+      <div class="row"><button class="btn">Guardar borrador</button><a class="btn ok" href="#historial">Aprobar nota</a></div></div>
+    <div class="grid2">
+      <div class="card"><h2>Texto original (no se modifica)</h2>
+        <div class="orig">Paciente llega puntual. Trae el registro de sueño: durmió entre 4 y 5 horas, 3 noches con insomnio. Dice que el lunes tuvo un ataque de pánico en el bus, duró unos 10 minutos. Ánimo 5/10. Se trabajó reestructuración de pensamientos catastróficos. Tarea: continuar registro y practicar respiración 2 veces al día.</div>
+        <h2 style="margin-top:16px">Síntomas detectados</h2>
+        <span class="tag">Insomnio · 6/10 ✎</span><span class="tag">Ataque de pánico · 7/10 ✎</span><span class="tag">Ánimo bajo · 5/10 ✎</span>
+        <div class="row" style="margin-top:6px"><button class="btn small">+ Agregar síntoma del catálogo</button></div>
+      </div>
+      <div class="card soap"><h2>Nota SOAP (editable)</h2>
+        <h3>S — Subjetivo</h3><textarea>Refiere 3 noches con insomnio (4–5 h de sueño). Reporta un ataque de pánico de 10 minutos en el bus. Ánimo 5/10.</textarea>
+        <h3>O — Objetivo</h3><textarea>Llega puntual. Trae el registro de sueño completo.</textarea>
+        <h3>A — Análisis</h3><textarea>Persisten insomnio y crisis de pánico, con mejor adherencia a las tareas.</textarea>
+        <h3>P — Plan</h3><textarea>Continuar registro de sueño. Respiración diafragmática 2 veces al día. Reestructuración cognitiva en la próxima sesión.</textarea>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- P08 Historial de notas -->
+<section class="screen" id="historial">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Ana Peralta Ruiz › Notas</div><h1>Historial de notas</h1></div>
+      <a class="btn pri" href="#nueva-nota">+ Nueva nota</a></div>
+    <div class="grid2">
+      <div class="card"><table>
+        <tr><th>Fecha</th><th>Formato</th><th>Estado</th></tr>
+        <tr style="background:var(--brand-soft)"><td>2026-11-03</td><td>SOAP</td><td><span class="tag ok">Aprobada</span></td></tr>
+        <tr><td>2026-10-30</td><td>SOAP</td><td><span class="tag ok">Aprobada</span></td></tr>
+        <tr><td>2026-10-23</td><td>DAP</td><td><span class="tag ok">Aprobada</span></td></tr>
+        <tr><td>2026-10-16</td><td>SOAP</td><td><span class="tag grey">Borrador</span></td></tr>
+      </table><p class="muted small">Las notas no se pueden eliminar.</p></div>
+      <div class="card"><h2>Nota del 2026-11-03 · SOAP · Aprobada el 2026-11-03 17:42</h2>
+        <p class="small"><b>S:</b> Refiere 3 noches con insomnio (4–5 h de sueño). Reporta un ataque de pánico de 10 minutos en el bus. Ánimo 5/10.<br>
+        <b>O:</b> Llega puntual. Trae el registro de sueño completo.<br>
+        <b>A:</b> Persisten insomnio y crisis de pánico, con mejor adherencia a las tareas.<br>
+        <b>P:</b> Continuar registro de sueño. Respiración 2 veces al día.</p>
+        <details open><summary class="small muted">Texto original</summary><div class="orig small">Paciente llega puntual. Trae el registro de sueño: durmió entre 4 y 5 horas…</div></details>
+        <div class="row" style="margin-top:10px"><button class="btn">Agregar adenda</button></div>
+      </div>
+    </div>
+  </main>
+</section>
+
+<!-- P09 Evolución -->
+<section class="screen" id="evolucion">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a href="#pacientes">Pacientes</a><a href="#citas">Agenda</a><a class="act" href="#evolucion">Evolución</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Dra. Laura Méndez<br>Rol: Terapeuta</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Pacientes › Ana Peralta Ruiz › Evolución</div><h1>Evolución de síntomas</h1></div>
+      <div class="row"><label style="margin:0">Desde</label><input style="width:130px" value="2026-08-03"><label style="margin:0">Hasta</label><input style="width:130px" value="2026-11-03"></div></div>
+    <div class="card">
+      <svg viewBox="0 0 760 300" width="100%" role="img" aria-label="Gráfica de intensidad de síntomas">
+        <g font-size="11" fill="#667085">
+          <line x1="50" y1="20" x2="50" y2="250" stroke="#cfd5de"/><line x1="50" y1="250" x2="740" y2="250" stroke="#cfd5de"/>
+          <text x="20" y="254">0</text><text x="20" y="139">5</text><text x="14" y="24">10</text>
+          <line x1="50" y1="135" x2="740" y2="135" stroke="#eef0f3"/>
+          <text x="60" y="270">08-07</text><text x="170" y="270">08-21</text><text x="280" y="270">09-04</text><text x="390" y="270">09-25</text><text x="500" y="270">10-16</text><text x="600" y="270">10-30</text><text x="700" y="270">11-03</text>
+        </g>
+        <polyline fill="none" stroke="#2f5d8a" stroke-width="2.5" points="75,66 185,66 295,89 405,112 515,112 615,135 715,112"/>
+        <polyline fill="none" stroke="#b4581b" stroke-width="2.5" points="75,43 185,66 295,66 405,112 515,135 615,158 715,89"/>
+        <polyline fill="none" stroke="#2e7d4f" stroke-width="2.5" points="75,89 185,112 295,112 405,135 515,135 615,158 715,135"/>
+        <g font-size="12"><rect x="560" y="18" width="12" height="4" fill="#2f5d8a"/><text x="578" y="24">Insomnio</text>
+        <rect x="560" y="36" width="12" height="4" fill="#b4581b"/><text x="578" y="42">Ataque de pánico</text>
+        <rect x="560" y="54" width="12" height="4" fill="#2e7d4f"/><text x="578" y="60">Ánimo bajo</text></g>
+      </svg>
+      <p class="muted small">Intensidad (1–10) por síntoma en cada nota. Solo se usan notas aprobadas; las etiquetas corregidas por la terapeuta reemplazan a las detectadas automáticamente.</p>
+    </div>
+  </main>
+</section>
+
+<!-- P10 Gestión de usuarios (administrador) -->
+<section class="screen" id="usuarios">
+  <aside class="side"><div class="brand">CogniSync<small>Clínica Ejemplo</small></div>
+    <nav class="nav"><a class="act" href="#usuarios">Usuarios</a><a href="#login">Cerrar sesión</a></nav>
+    <div class="who">Ing. Jorge Salas<br>Rol: Administrador</div></aside>
+  <main class="main">
+    <div class="top"><div><div class="crumb">Administración</div><h1>Usuarios de la clínica</h1></div></div>
+    <div class="grid2">
+      <div class="card"><table>
+        <tr><th>Nombre</th><th>Rol</th><th>Estado</th><th></th></tr>
+        <tr><td>Laura Méndez</td><td>Terapeuta</td><td><span class="tag ok">Activo</span></td><td><button class="btn small">Desactivar</button></td></tr>
+        <tr><td>Pablo Cedeño</td><td>Terapeuta</td><td><span class="tag ok">Activo</span></td><td><button class="btn small">Desactivar</button></td></tr>
+        <tr><td>Sofía Andrade</td><td>Terapeuta</td><td><span class="tag grey">Desactivado</span></td><td><button class="btn small">Reactivar</button></td></tr>
+      </table></div>
+      <div class="card"><h2>Registrar usuario</h2>
+        <div class="field"><label>Nombres y apellidos</label><input value="Daniela Torres"></div>
+        <div class="field err"><label>Correo electrónico</label><input value="lmendez@clinica-ejemplo.ec"><div class="msg">Este correo ya está registrado.</div></div>
+        <div class="field"><label>Rol</label><select><option>Terapeuta</option><option>Administrador</option></select></div>
+        <button class="btn pri">Registrar</button>
+      </div>
+    </div>
+  </main>
+</section>
+
+<script>
+  function show(){
+    var id=(location.hash||'#login').slice(1);
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('on',s.id===id)});
+    if(!document.querySelector('.screen.on')) document.getElementById('login').classList.add('on');
+  }
+  window.addEventListener('hashchange',show); show();
+</script>
+</body>
+</html>

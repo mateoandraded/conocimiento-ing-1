@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><title>Flujo de ventanas</title>
+<style>body{margin:0;background:#fff;font:13px "Segoe UI",system-ui,sans-serif}</style></head>
+<body>
+<svg viewBox="0 0 1200 560" width="1200" height="560" xmlns="http://www.w3.org/2000/svg">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475467"/></marker></defs>
+<style>.b{fill:#E4F0EE;stroke:#1D615E;stroke-width:1.5}.t{font-size:13px;fill:#1C2128;text-anchor:middle}.s{font-size:11px;fill:#667085;text-anchor:middle}.l{stroke:#475467;stroke-width:1.4;fill:none;marker-end:url(#a)}.adm{fill:#FBF0E4;stroke:#9A4A0B}.e{font-size:11px;fill:#475467}</style>
+<!-- nodes -->
+<rect class="b" x="40" y="250" width="150" height="56" rx="8"/><text class="t" x="115" y="274">P01 Inicio de sesión</text><text class="s" x="115" y="292">HU-01, HU-02</text>
+<rect class="b" x="270" y="150" width="160" height="56" rx="8"/><text class="t" x="350" y="174">P02 Mis pacientes</text><text class="s" x="350" y="192">HU-06, HU-11</text>
+<rect class="b adm" x="270" y="380" width="160" height="56" rx="8"/><text class="t" x="350" y="404">P10 Usuarios (admin)</text><text class="s" x="350" y="422">HU-03, HU-04</text>
+<rect class="b" x="510" y="40" width="160" height="56" rx="8"/><text class="t" x="590" y="64">P03 Crear / editar</text><text class="s" x="590" y="82">HU-05, HU-07</text>
+<rect class="b" x="510" y="150" width="160" height="56" rx="8"/><text class="t" x="590" y="174">P04 Expediente</text><text class="s" x="590" y="192">HU-07, HU-08, HU-11</text>
+<rect class="b" x="760" y="40" width="160" height="56" rx="8"/><text class="t" x="840" y="64">P05 Citas</text><text class="s" x="840" y="82">HU-09, HU-10</text>
+<rect class="b" x="760" y="150" width="160" height="56" rx="8"/><text class="t" x="840" y="174">P06 Nueva nota</text><text class="s" x="840" y="192">HU-12 a HU-16, HU-18</text>
+<rect class="b" x="1000" y="150" width="170" height="56" rx="8"/><text class="t" x="1085" y="174">P07 Revisar y aprobar</text><text class="s" x="1085" y="192">HU-17, HU-20, HU-21</text>
+<rect class="b" x="760" y="270" width="160" height="56" rx="8"/><text class="t" x="840" y="294">P08 Historial de notas</text><text class="s" x="840" y="312">HU-19</text>
+<rect class="b" x="760" y="380" width="160" height="56" rx="8"/><text class="t" x="840" y="404">P09 Evolución</text><text class="s" x="840" y="422">HU-21, HU-22</text>
+<!-- edges -->
+<path class="l" d="M190,268 L270,182"/><text class="e" x="196" y="215">rol Terapeuta</text>
+<path class="l" d="M190,290 L270,404"/><text class="e" x="196" y="360">rol Administrador</text>
+<path class="l" d="M430,170 L510,80"/><text class="e" x="440" y="112">Nuevo paciente</text>
+<path class="l" d="M430,178 L510,178"/><text class="e" x="436" y="170">abrir</text>
+<path class="l" d="M590,150 L590,96"/><text class="e" x="596" y="128">Editar</text>
+<path class="l" d="M670,165 L760,80"/><text class="e" x="682" y="112">pestaña Citas</text>
+<path class="l" d="M670,178 L760,178"/><text class="e" x="684" y="170">Nueva nota</text>
+<path class="l" d="M670,192 L760,295"/><text class="e" x="676" y="250">pestaña Notas</text>
+<path class="l" d="M670,200 L760,404"/><text class="e" x="640" y="330">pestaña Evolución</text>
+<path class="l" d="M920,178 L1000,178"/><text class="e" x="926" y="170">Estructurar</text>
+<path class="l" d="M1085,206 L920,295"/><text class="e" x="1010" y="262">Aprobar</text>
+<path class="l" d="M840,326 L840,380"/>
+<path class="l" d="M430,404 C470,520 120,520 115,306"/><text class="e" x="230" y="500">Cerrar sesión (desde cualquier pantalla)</text>
+<text x="40" y="540" font-size="12" fill="#667085">Verde: rol Terapeuta. Naranja: rol Administrador. Cada caja indica sus historias de usuario.</text>
+</svg>
+</body></html>

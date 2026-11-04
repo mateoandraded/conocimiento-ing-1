@@ -30,8 +30,8 @@ Claude lee `CLAUDE.md` solo; Cursor, Codex y Copilot leen `AGENTS.md`. Luego pre
 | `conceptos/` | Notas atómicas por concepto |
 | `material/` | Slides y talleres (PDF) y su texto en `_texto/`, especificaciones y rúbricas del proyecto |
 | `guias/`, `referencias/` | Guías de estudio e índice de consulta del SWEBOK |
-| `STUDY_STATE.md`, `ERRORS.md` | Plantillas vacías para tu progreso personal |
+| `STUDY_STATE.md`, `ERRORS.md` | Progreso de estudio y errores de Mateo (cada uno puede llevar los suyos en su copia) |
 
-**No incluido** (derechos de autor o datos personales): los PDF de los libros, las normas IEEE 830 e ISO/IEC/IEEE 29148, el SWEBOK en PDF (es gratis en computer.org/swebok), las coevaluaciones y las cartas firmadas.
+**No incluido** (derechos de autor o datos personales): los PDF de los libros, las normas IEEE 830 e ISO/IEC/IEEE 29148, el SWEBOK en PDF (es gratis en computer.org/swebok) y la carta del proyecto firmada por el cliente.
 
-Repositorio privado del Team 1. No lo hagas público: contiene material del curso.
+Repositorio público del Team 1.

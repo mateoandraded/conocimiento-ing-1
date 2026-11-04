@@ -30,4 +30,4 @@ Responde en español, salvo en los entregables del proyecto, que van en inglés.
 - Libros y estándares: este repo **no** incluye los PDF de los libros (Sommerville, Pressman, Robertson, Wiegers…) ni las normas IEEE o ISO, porque tienen derechos de autor. Cita capítulo y sección, con `referencias/SWEBOK v4 - indice de consulta.md` como guía, y no reproduzcas pasajes largos.
 - Canvas (Aula Virtual) es de solo lectura: nunca entregues, publiques ni envíes mensajes.
 - Nada de datos reales de pacientes en ningún ejemplo.
-- `STUDY_STATE.md` y `ERRORS.md` son personales: cada persona lleva los suyos (vienen vacíos).
+- `STUDY_STATE.md` y `ERRORS.md` son el progreso de Mateo; cada persona puede llevar los suyos en su copia.
