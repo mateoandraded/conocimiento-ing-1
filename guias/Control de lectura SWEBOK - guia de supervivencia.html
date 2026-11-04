@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Control de lectura SWEBOK</title>
+<style>
+@page { size: A4; margin: 15mm 15mm 16mm 15mm; }
+:root{
+  --ink:#1f2328; --soft:#5b6370; --line:#e3e6ea; --paper:#ffffff;
+  --coral:#e4572e; --coral-bg:#fdeee9;
+  --teal:#11897f; --teal-bg:#e4f4f2;
+  --sun:#f2a900; --sun-bg:#fff6dc;
+  --plum:#6b4fbb; --plum-bg:#efebfa;
+  --sky:#2a6fdb; --sky-bg:#e8f0fc;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink)}
+body{font-family:"Segoe UI",Calibri,Arial,sans-serif;font-size:10.4pt;line-height:1.48}
+h1,h2,h3{font-family:Georgia,"Cambria",serif;line-height:1.15;margin:0}
+h2{font-size:21pt;margin:0 0 4pt}
+h3{font-size:12.5pt;margin:12pt 0 5pt;break-after:avoid;page-break-after:avoid}
+.sub{margin-top:16pt}
+.sec-head{break-after:avoid}
+.grid2 .lab,.grid3 .lab{flex-basis:50pt}
+p{margin:0 0 6pt}
+ul{margin:2pt 0 6pt 15pt;padding:0} li{margin:1pt 0}
+b{font-weight:650}
+.pb{page-break-before:always}
+.avoid{break-inside:avoid;page-break-inside:avoid}
+.kicker{font-size:8.5pt;letter-spacing:.14em;text-transform:uppercase;color:var(--coral);font-weight:700}
+.lead{color:var(--soft);font-size:10.6pt;margin-bottom:10pt}
+.sec-head{border-bottom:2.5px solid var(--ink);padding-bottom:6pt;margin-bottom:10pt}
+
+/* cover */
+.cover{height:262mm;display:flex;flex-direction:column;justify-content:space-between;
+  background:#1f2328;color:#fff;margin:-15mm -15mm 0;padding:22mm 18mm}
+.cover h1{font-size:40pt;line-height:1.02;margin:6mm 0 4mm}
+.cover .tag{display:inline-block;background:var(--sun);color:#1f2328;font-weight:700;
+  padding:3pt 9pt;border-radius:20pt;font-size:9pt;letter-spacing:.08em}
+.cover .sub{font-size:13pt;color:#d7dbe0;max-width:150mm}
+.cover .foot{font-size:9pt;color:#aab1ba;border-top:1px solid #444b55;padding-top:5mm}
+.cover .big{font-size:70pt;line-height:1}
+
+/* cards */
+.card{border:1px solid var(--line);border-left:5px solid var(--sky);border-radius:6pt;
+  padding:8pt 10pt 6pt;margin:0 0 8pt;break-inside:avoid;page-break-inside:avoid;background:#fff}
+.card h4{margin:0 0 4pt;font-size:11.5pt;font-family:Georgia,serif}
+.card .en{font-weight:400;color:var(--soft);font-size:9.5pt;font-family:"Segoe UI",sans-serif}
+.card.hot{border-left-color:var(--coral)}
+.card.teal{border-left-color:var(--teal)}
+.card.plum{border-left-color:var(--plum)}
+.card.sun{border-left-color:var(--sun)}
+.row{display:flex;gap:6pt;margin:2pt 0}
+.lab{flex:0 0 66pt;font-size:8pt;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding-top:1.5pt}
+.lab.d{color:var(--sky)} .lab.c{color:var(--teal)} .lab.e{color:var(--coral)} .lab.x{color:var(--plum)}
+.row>div:last-child{flex:1}
+.ref{display:inline-block;font-size:8pt;background:var(--sun-bg);color:#8a6100;border:1px solid #f0d78c;
+  border-radius:3pt;padding:0 5pt;font-weight:600;white-space:nowrap}
+.pill{display:inline-block;font-size:7.5pt;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  border-radius:10pt;padding:1pt 6pt;margin-left:4pt;vertical-align:2pt}
+.pill.cajon{background:var(--coral);color:#fff}
+.pill.clase{background:var(--plum-bg);color:var(--plum)}
+.note{background:var(--sun-bg);border-radius:6pt;padding:7pt 10pt;margin:6pt 0 9pt;font-size:9.8pt;break-inside:avoid}
+.warn{background:var(--coral-bg);border-radius:6pt;padding:7pt 10pt;margin:6pt 0 9pt;font-size:9.8pt;break-inside:avoid}
+.ok{background:var(--teal-bg);border-radius:6pt;padding:7pt 10pt;margin:6pt 0 9pt;font-size:9.8pt;break-inside:avoid}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8pt}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7pt}
+.mini{border:1px solid var(--line);border-radius:6pt;padding:6pt 8pt;break-inside:avoid;font-size:9.5pt}
+.mini b.t{display:block;font-family:Georgia,serif;font-size:10.5pt;margin-bottom:2pt}
+table{border-collapse:collapse;width:100%;font-size:9.1pt;margin:4pt 0 8pt}
+th{background:var(--ink);color:#fff;text-align:left;padding:4pt 5pt;font-weight:600}
+td{border-bottom:1px solid var(--line);padding:3.5pt 5pt;vertical-align:top}
+tr{break-inside:avoid}
+tr:nth-child(even) td{background:#fafbfc}
+.num{font-family:Georgia,serif;font-weight:700;color:var(--coral);font-size:11pt}
+.quote{font-family:Georgia,serif;font-size:11pt;border-left:3px solid var(--ink);padding:2pt 0 2pt 9pt;margin:6pt 0 8pt}
+.fig{margin:4pt 0 10pt;text-align:center;break-inside:avoid}
+.fig figcaption{font-size:8.5pt;color:var(--soft);margin-top:2pt}
+.qa{border-top:1px dashed #cfd4da;padding:6pt 0 4pt;break-inside:avoid}
+.qa .q{font-weight:650}
+.qa .a{margin-top:2pt;padding-left:10pt;border-left:3px solid var(--teal)}
+.small{font-size:8.8pt;color:var(--soft)}
+.toc td{border:none;padding:2pt 4pt;font-size:10.5pt}
+.toc tr:nth-child(even) td{background:none}
+.cheat{font-size:8.9pt;line-height:1.36}
+.cheat .mini{padding:5pt 7pt}
+.check{font-family:Georgia,serif;color:var(--teal);font-weight:700}
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<section class="cover">
+  <div>
+    <span class="tag">INGENIERÍA DE SOFTWARE I · ESPOL · PAO 2026-2</span>
+    <h1>Control de lectura:<br>SWEBOK sin dolor<br><span style="color:var(--sun)">(o con poquito)</span></h1>
+    <p class="sub">Definiciones claras, ejemplos que se te quedan y la página exacta del SWEBOK para cada cosa. Hecho para leerse de corrido una mañana, con café y algo de pánico controlado.</p>
+  </div>
+  <div class="big">📘☕💀</div>
+  <div class="foot">
+    Fuente principal: <b>SWEBOK Guide v4.0a</b> (IEEE Computer Society), archivo <i>material/swebok-v4 (1).pdf</i> del vault.<br>
+    Complemento: slides de clase 01b, 02, 03a (Dr. Mera / Dra. Villavicencio).<br>
+    Preparado el 2026-10-20. Las definiciones están parafraseadas y traducidas, no copiadas. Los ejemplos con humor son inventados (ningún estudiante fue dañado… todavía).
+  </div>
+</section>
+
+<!-- ============ CÓMO USAR ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Antes de empezar · 3 minutos</div><h2>Cómo usar esta guía</h2></div>
+
+  <p class="lead">El profe lo dijo en la Sesión 03 (2026-10-05): va a preguntar <i>«según el SWEBOK, ¿qué es X?»</i>, quiere <b>2 o 3 líneas sin inventarse nada</b> y, para saber si entendiste, te va a pedir <b>un ejemplo</b>. Esta guía está armada exactamente para eso.</p>
+
+  <div class="grid3" style="margin-bottom:10pt">
+    <div class="mini"><b class="t" style="color:var(--sky)">📖 Definición</b>Lo que dice el SWEBOK, en español y en corto. Esto es lo que escribes en el control.</div>
+    <div class="mini"><b class="t" style="color:var(--teal)">🧠 En cristiano</b>La misma idea como se la explicarías a tu pana a las 2 a. m.</div>
+    <div class="mini"><b class="t" style="color:var(--coral)">🎯 Ejemplo</b>El ejemplo concreto que te piden. Algunos con humor negro, porque así se recuerdan.</div>
+  </div>
+
+  <div class="ok"><b>Fórmula de respuesta de 3 líneas</b> (úsala en todas):<br>
+  <b>1)</b> Qué es (la definición). <b>2)</b> Para qué sirve o en qué consiste (1 idea clave). <b>3)</b> Un ejemplo tuyo.<br>
+  <i>Ejemplo:</i> «Según el SWEBOK, el mantenimiento es el conjunto de actividades para dar soporte costo-efectivo al software que ya está en operación. Incluye corregir, adaptar y mejorar el producto después de entregarlo. Ej.: actualizar la app del banco porque salió una nueva versión de Android (mantenimiento adaptativo).»</div>
+
+  <h3>Cómo leer las referencias <span class="ref">p. 46 (1-4)</span></h3>
+  <p>El primer número es la <b>página del visor PDF</b> (la que pones en «ir a página»). Entre paréntesis va el número <b>impreso</b> en el libro (capítulo-página). Si el profe dice «capítulo 1, página 4», es la 1-4 = p. 46 del PDF.</p>
+
+  <h3>Índice</h3>
+  <table class="toc">
+    <tr><td class="num">1</td><td>La introducción del SWEBOK: software, ingeniería de software y por qué existe</td><td class="small">p. 38–39</td></tr>
+    <tr><td class="num">2</td><td>Mapa de las 18 áreas de conocimiento (KAs) en una línea cada una</td><td class="small">toda la guía</td></tr>
+    <tr><td class="num">3</td><td>KA 1, Requisitos de software: el plato fuerte</td><td class="small">p. 43–61</td></tr>
+    <tr><td class="num">4</td><td>KA 12, Calidad: error, defecto, falla, V&amp;V</td><td class="small">p. 246–257</td></tr>
+    <tr><td class="num">5</td><td>KA 10 y 11: procesos, ciclos de vida, ágil y Scrum</td><td class="small">p. 221–242</td></tr>
+    <tr><td class="num">6</td><td>Las KAs que el profe nombró: SCM, mantenimiento, gestión, economía</td><td class="small">p. 167–210, 288</td></tr>
+    <tr><td class="num">7</td><td>Lo de clase que se cruza con el SWEBOK (taxonomía de Sommerville)</td><td class="small">slides 03a</td></tr>
+    <tr><td class="num">8</td><td>Trampas: parejas que se confunden</td><td class="small"></td></tr>
+    <tr><td class="num">9</td><td>Simulacro de control con respuestas modelo</td><td class="small"></td></tr>
+    <tr><td class="num">10</td><td>Chuleta de 1 página para el último repaso</td><td class="small"></td></tr>
+  </table>
+
+  <div class="warn"><b>Lo que esta guía NO cubre (para que no te agarre de nuevo):</b> la Lectura #3 de Canvas, <i>Mastering the Requirements Process</i> (Robertson), caps. 1, 10, 11, 14, 16 y 17. Ese libro no está en el vault y no te voy a inventar su contenido. Si el control también la incluye, toca leer esos capítulos aparte. Tampoco pude confirmar en Canvas el temario exacto del control: el token del Aula Virtual configurado está expirado.</div>
+</section>
+
+<!-- ============ 1. INTRODUCCIÓN ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 1 · SWEBOK, introducción · p. 38–39</div><h2>Lo básico: qué es todo esto</h2></div>
+  <p class="lead">SWEBOK = <i>Software Engineering Body of Knowledge</i>, el «cuerpo de conocimiento» de la ingeniería de software. Es una guía de la IEEE Computer Society que dice qué tiene que saber un ingeniero de software. La v4 tiene <b>18 áreas de conocimiento</b> (KAs).</p>
+
+  <div class="card">
+    <h4>Software <span class="en">· software</span></h4>
+    <div class="row"><div class="lab d">Definición</div><div>Programas de computadora, junto con los procedimientos y, posiblemente, la documentación y los datos asociados a la operación de un sistema de cómputo (vocabulario ISO/IEC/IEEE, citado por el SWEBOK).</div></div>
+    <div class="row"><div class="lab c">En cristiano</div><div>Software no es solo el código. Es el código <b>más</b> los manuales, los datos y los procedimientos para usarlo.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>El sistema de matrícula de la ESPOL es el código, la base de datos de materias y el instructivo en PDF que nadie lee hasta que se cae el servidor.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 38 (xxxvii)</span> sección 1 «What Is Software Engineering?»</div></div>
+  </div>
+
+  <div class="card hot">
+    <h4>Ingeniería de software <span class="en">· software engineering</span> <span class="pill cajon">pregunta de cajón</span></h4>
+    <div class="row"><div class="lab d">Definición</div><div>La aplicación de un enfoque <b>sistemático, disciplinado y cuantificable</b> al <b>desarrollo, la operación y el mantenimiento</b> del software; es decir, aplicar la ingeniería al software.</div></div>
+    <div class="row"><div class="lab c">En cristiano</div><div>No es «programar bonito». Es hacer software con método (sistemático), con reglas que se respetan (disciplinado) y midiendo (cuantificable). Y no termina cuando lo entregas: también cubre operarlo y mantenerlo.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Programar el sistema del hospital un fin de semana con Red Bull es programación. Hacerlo con requisitos validados, pruebas, control de versiones, métricas de disponibilidad y un plan de mantenimiento es ingeniería de software. La diferencia la notan los pacientes.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 38</span> mismo párrafo. Palabras clave para memorizar: <b>sistemático · disciplinado · cuantificable · desarrollo · operación · mantenimiento</b>.</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card teal">
+      <h4>Ciencia vs. ingeniería</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>La ciencia descubre cosas nuevas. La ingeniería <b>aplica</b> ese conocimiento para resolver problemas reales con <b>recursos limitados</b> y de forma costo-efectiva.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Un científico descubre un algoritmo de cifrado. El ingeniero decide si usarlo en la app del banco sabiendo que tiene 3 meses y 2 desarrolladores.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 39 (xxxviii)</span></div></div>
+    </div>
+    <div class="card teal">
+      <h4>Economía de la ingeniería <span class="en">· engineering economics</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Analizar las soluciones teóricamente posibles para identificar la <b>más costo-efectiva</b>. Toda ingeniería la incluye.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Se puede hacer la app en 5 lenguajes. Ingeniería es elegir el que da el mejor resultado por el dinero disponible, no el que está de moda en TikTok.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 39</span> y KA 15 <span class="ref">p. 288 (15-1)</span></div></div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card plum">
+      <h4>Área de conocimiento <span class="en">· knowledge area, KA</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Un área identificada de la ingeniería de software, descrita por su conocimiento generalmente aceptado: procesos, prácticas, entradas, salidas, herramientas y técnicas.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 38</span></div></div>
+    </div>
+    <div class="card plum">
+      <h4>Qué cambió en la versión 4</h4>
+      <ul style="margin-top:0">
+        <li>KAs <b>nuevas</b>: Arquitectura, Seguridad y Operaciones.</li>
+        <li><b>Ágil y DevOps</b> se incorporaron en casi todas las KAs.</li>
+        <li>IA, machine learning e IoT entran en las KAs de fundamentos.</li>
+      </ul>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 38</span></div></div>
+    </div>
+  </div>
+
+  <div class="note"><b>«¿Por qué es importante la ingeniería de software? Dé 2 razones»</b> <span class="pill clase">de clase</span><br>
+  Esto sale de las slides y de Sommerville (cap. 1), no del SWEBOK: <b>(1)</b> la sociedad depende cada vez más de sistemas de software (bancos, salud, transporte), así que necesitamos producir software confiable de forma económica y rápida; <b>(2)</b> a largo plazo suele ser más barato usar métodos de ingeniería que programar «como salga», porque la mayor parte del costo está en cambiar el software después de que está en uso. Ejemplo: arreglar un requisito mal entendido cuesta un correo en la fase de requisitos y cuesta un rediseño (y un cliente furioso) en producción.</div>
+</section>
+
+<!-- ============ 2. MAPA DE KAs ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 2 · Lectura #0: «reconocer al menos 8 áreas»</div><h2>Las 18 KAs en una línea</h2></div>
+  <p class="lead">Si te preguntan «¿qué es <i>software X</i> según el SWEBOK?», casi siempre la respuesta está en el primer párrafo de la introducción de esa KA. Aquí está ese párrafo exprimido. Las 15 primeras son «de práctica»; las 3 últimas son «de fundamentos».</p>
+  <table>
+    <tr><th style="width:4%">#</th><th style="width:22%">KA</th><th>Qué es (versión de control)</th><th style="width:25%">Ejemplo</th><th style="width:8%">Pág.</th></tr>
+    <tr><td class="num">1</td><td><b>Software Requirements</b><br><span class="small">Requisitos</span></td><td>Desarrollar los requisitos del software y <b>gestionarlos durante toda su vida útil</b>, no solo al inicio.</td><td>Definir qué debe hacer la app de pedidos del bar y mantener ese acuerdo cuando el dueño cambie de idea (cada martes).</td><td>43</td></tr>
+    <tr><td class="num">2</td><td><b>Software Architecture</b><br><span class="small">Arquitectura</span></td><td>La estructura de alto nivel del sistema: sus conceptos, cómo se describe, su proceso y cómo se evalúa. En la v4 se separó de diseño.</td><td>Decidir que el sistema es cliente-servidor con 3 capas antes de escribir una línea.</td><td>67</td></tr>
+    <tr><td class="num">3</td><td><b>Software Design</b><br><span class="small">Diseño</span></td><td>Analizar los requisitos para definir las <b>características externas y la estructura interna</b> del software, como base para construirlo. Etapas: arquitectónico, alto nivel y detallado.</td><td>Diagramas UML de clases antes de programar el módulo de pagos.</td><td>83</td></tr>
+    <tr><td class="num">4</td><td><b>Software Construction</b><br><span class="small">Construcción</span></td><td>Creación detallada del software mediante <b>codificación, verificación, pruebas unitarias, pruebas de integración y depuración</b>.</td><td>Escribir el código, probarlo y depurarlo a las 3 a. m. (lo de las 3 a. m. es opcional, pero tradicional).</td><td>99</td></tr>
+    <tr><td class="num">5</td><td><b>Software Testing</b><br><span class="small">Pruebas</span></td><td><b>Validación dinámica</b> de que el sistema da el comportamiento esperado en un <b>conjunto finito</b> de casos de prueba bien elegidos de un dominio de ejecución normalmente infinito.</td><td>No puedes probar todas las cédulas del país; eliges casos: válida, inválida, vacía, con letras.</td><td>117</td></tr>
+    <tr><td class="num">6</td><td><b>Software Engineering Operations</b><br><span class="small">Operaciones</span> · nueva</td><td>Actividades para <b>desplegar, operar y dar soporte</b> al software preservando su integridad y estabilidad, hasta que se retira. Aquí vive DevOps.</td><td>Monitorear que el sistema de notas no se caiga el día que publican las calificaciones.</td><td>151</td></tr>
+    <tr><td class="num">7</td><td><b>Software Maintenance</b><br><span class="small">Mantenimiento</span></td><td>La <b>totalidad de actividades</b> para dar soporte costo-efectivo al software en operación (antes y después de entregarlo).</td><td>Parchar un bug, adaptar a la nueva versión de iOS, agregar una función.</td><td>167</td></tr>
+    <tr><td class="num">8</td><td><b>Software Configuration Management</b><br><span class="small">Gestión de configuración, SCM</span></td><td>Aplicar gestión de configuración en todo el ciclo de vida para asegurar que los <b>ítems de configuración</b> estén completos y correctos: identificarlos, <b>controlar sus cambios</b>, registrar su estado y verificar que cumplen.</td><td>Git + ramas + versiones etiquetadas. Que nadie suba «final_final_ahora_si_v3.zip».</td><td>185</td></tr>
+    <tr><td class="num">9</td><td><b>Software Engineering Management</b><br><span class="small">Gestión</span></td><td>Planificar, estimar, medir, controlar, coordinar, liderar y <b>gestionar riesgos</b> de un proyecto para entregar de forma eficiente y en beneficio de los stakeholders.</td><td>El cronograma del proyecto CogniSync y el plan B si un integrante desaparece.</td><td>202</td></tr>
+    <tr><td class="num">10</td><td><b>Software Engineering Process</b><br><span class="small">Proceso</span></td><td>Las actividades de trabajo para construir y operar software: conceptos, <b>ciclos de vida</b> y evaluación/mejora del proceso.</td><td>Elegir cascada, incremental o Scrum para el proyecto.</td><td>221</td></tr>
+    <tr><td class="num">11</td><td><b>Models and Methods</b><br><span class="small">Modelos y métodos</span></td><td>Modelos y métodos que dan estructura a la ingeniería de software para hacerla <b>sistemática, repetible y orientada al éxito</b>. Incluye métodos formales, prototipado y ágiles.</td><td>Un diagrama de estados para el préstamo de un libro; usar Scrum como método.</td><td>233</td></tr>
+    <tr><td class="num">12</td><td><b>Software Quality</b><br><span class="small">Calidad</span></td><td>Grado en que el software cumple sus requisitos, siempre que esos requisitos representen de verdad lo que los stakeholders necesitan (ver sección 4).</td><td>Cumple todo lo pedido… pero lo pedido era lo incorrecto: no hay calidad.</td><td>246</td></tr>
+    <tr><td class="num">13</td><td><b>Software Security</b><br><span class="small">Seguridad</span> · nueva</td><td>Construir la seguridad <b>durante todo el ciclo de vida</b> (requisitos, diseño, construcción, pruebas y mantenimiento), no parcharla al final.</td><td>Cifrar contraseñas desde el diseño, no después de salir en las noticias.</td><td>264</td></tr>
+    <tr><td class="num">14</td><td><b>Professional Practice</b><br><span class="small">Práctica profesional</span></td><td>Conocimientos, habilidades y actitudes para ejercer de forma <b>profesional, responsable y ética</b> (códigos ACM/IEEE, trabajo en equipo, comunicación).</td><td>No firmar que el sistema está probado cuando no lo está.</td><td>274</td></tr>
+    <tr><td class="num">15</td><td><b>Software Engineering Economics</b><br><span class="small">Economía</span></td><td>Alinear las decisiones técnicas con los objetivos del negocio. «La economía es la ciencia de <b>elegir</b>, no del dinero». Pregunta clave: ¿conviene invertir aquí o rinde más en otro lado?</td><td>¿Desarrollar el sistema propio o comprar uno hecho (COTS)? Se comparan alternativas.</td><td>288</td></tr>
+    <tr><td class="num">16</td><td><b>Computing Foundations</b></td><td>Base de ciencias de la computación que el ingeniero aplica. Distingue al ingeniero del simple programador.</td><td>Estructuras de datos, redes, sistemas operativos.</td><td>312</td></tr>
+    <tr><td class="num">17</td><td><b>Mathematical Foundations</b></td><td>Lógica y razonamiento formal para traducir reglas sin ambigüedad a código.</td><td>Lógica proposicional, conjuntos, grafos.</td><td>345</td></tr>
+    <tr><td class="num">18</td><td><b>Engineering Foundations</b></td><td>Lo común a todas las ingenierías: proceso de ingeniería, medición, toma de decisiones, análisis de causa raíz.</td><td>Empezar por «entender el problema real», que no siempre es el que te pidieron.</td><td>367</td></tr>
+  </table>
+  <div class="note"><b>Truco para el «nombre 8 áreas»:</b> sigue el ciclo de vida. <b>Requisitos → Arquitectura → Diseño → Construcción → Pruebas → Operaciones → Mantenimiento</b> (7) + <b>Configuración</b> (8). Ya pasaste. Si quieres lucirte: Gestión, Proceso, Calidad, Seguridad.<br>
+  <b>Ojo:</b> el índice del vault decía que KA 1 empieza en p. 44; la portada del capítulo está en la <b>p. 43</b> (la definición de requisito sí está en la 44).</div>
+</section>
+
+<!-- ============ 3. KA 1 REQUISITOS ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 3 · KA 1 · p. 43–61 · el capítulo con más preguntas</div><h2>Requisitos de software</h2></div>
+  <p class="lead">Es el tema que estás viendo en clase y en el proyecto. Si solo te da tiempo para una sección, que sea esta.</p>
+
+  <div class="card hot">
+    <h4>Las dos caras de los requisitos</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Los requisitos se ven desde 2 perspectivas: <b>(1)</b> como expresión de las necesidades y restricciones de un producto o proyecto que ayudan a resolver un problema real; <b>(2)</b> como las <b>actividades</b> necesarias para desarrollarlos y mantenerlos.</div></div>
+    <div class="row"><div class="lab c">En cristiano</div><div>Requisito es «lo que hay que lograr» y también «el trabajo de averiguarlo y cuidarlo».</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 43 (1-1)</span> Introduction</div></div>
+  </div>
+
+  <div class="card hot">
+    <h4>Por qué duele hacer mal los requisitos</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Cada requisito genera muchas decisiones de diseño; cada una, muchas de código; cada una, varias de pruebas. Un requisito faltante o mal entendido que no se detecta temprano provoca un <b>retrabajo que crece exponencialmente, en cascada</b>.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Nadie preguntó si «fecha» era con hora. Tres meses después, todos los reportes del sistema de turnos médicos dan mal la hora de las citas. El requisito costaba una pregunta; ahora cuesta medio sistema.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 43</span></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Incompletitud <span class="en">· incompleteness</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Existen requisitos o detalles necesarios de los stakeholders que <b>no se revelan ni se comunican</b> a los ingenieros.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>El cliente «olvidó» decir que el 30 % de sus clientes no tiene correo.</div></div>
+    </div>
+    <div class="card">
+      <h4>Ambigüedad <span class="en">· ambiguity</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>El requisito se comunica de forma que admite <b>varias interpretaciones</b>, y solo una es la correcta.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>«Alerta rápida al médico». ¿Rápida para quién? El paciente y el programador no coinciden.</div></div>
+    </div>
+  </div>
+  <p class="small" style="margin-top:-4pt">Son los <b>2 problemas principales</b> de requisitos en proyectos reales <span class="ref">p. 43</span>.</p>
+
+  <div class="card">
+    <h4>Defecto (bug) visto desde requisitos</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Lo que llamamos «bug» se llama mejor <b>defecto</b>: una diferencia observable entre lo que el software <b>debería hacer</b> y lo que <b>hace</b>. Sin requisitos documentados, sabes qué hace el código, pero no qué <i>debía</i> hacer.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Heredas un sistema sin documentación que redondea las notas hacia abajo. ¿Bug o política cruel del profe? Sin requisitos, no hay forma de saberlo.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 43</span></div></div>
+  </div>
+
+  <div class="card hot">
+    <h4>Requisito de software <span class="en">· software requirement</span> <span class="pill cajon">definición clave</span></h4>
+    <div class="row"><div class="lab d">Formal</div><div>(1) Condición o capacidad que un usuario necesita para resolver un problema o lograr un objetivo; (2) condición o capacidad que un sistema debe cumplir o tener para satisfacer un contrato, estándar, especificación u otro documento formal; (3) una representación documentada de (1) o (2).</div></div>
+    <div class="row"><div class="lab d">Básica</div><div>Una <b>propiedad que el software debe exhibir</b> para resolver un problema del mundo real.</div></div>
+    <div class="row"><div class="lab c">En cristiano</div><div>Algo que el sistema tiene que hacer o cumplir, porque alguien lo necesita o porque un papel firmado lo exige.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>«El sistema deberá impedir que un estudiante se matricule si tiene valores pendientes». Viene de una necesidad del negocio (que paguen) y es verificable.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 44 (1-2)</span> sección 1.1 y <span class="ref">p. 45 (1-3)</span>. Quién los impone: clientes, usuarios y también terceros como <b>entes reguladores</b> o el propio proyecto.</div></div>
+  </div>
+
+  <h3>Las categorías de requisitos (figura 1.2, p. 46)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 210" width="100%" style="max-width:155mm" font-family="Segoe UI, Arial" font-size="12">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#5b6370"/></marker></defs>
+      <rect x="230" y="8" width="180" height="34" rx="6" fill="#1f2328"/><text x="320" y="30" fill="#fff" text-anchor="middle" font-weight="700">Requisitos de software</text>
+      <line x1="320" y1="42" x2="150" y2="70" stroke="#5b6370" marker-end="url(#ar)"/><line x1="320" y1="42" x2="490" y2="70" stroke="#5b6370" marker-end="url(#ar)"/>
+      <rect x="40" y="72" width="220" height="44" rx="6" fill="#fdeee9" stroke="#e4572e"/><text x="150" y="91" text-anchor="middle" font-weight="700">Del PROYECTO</text><text x="150" y="107" text-anchor="middle" font-size="10.5">costo, plazo, personal (este KA no los trata)</text>
+      <rect x="380" y="72" width="220" height="44" rx="6" fill="#e8f0fc" stroke="#2a6fdb"/><text x="490" y="91" text-anchor="middle" font-weight="700">Del PRODUCTO</text><text x="490" y="107" text-anchor="middle" font-size="10.5">forma, ajuste o función del software</text>
+      <line x1="490" y1="116" x2="400" y2="140" stroke="#5b6370" marker-end="url(#ar)"/><line x1="490" y1="116" x2="560" y2="140" stroke="#5b6370" marker-end="url(#ar)"/>
+      <rect x="320" y="142" width="150" height="30" rx="6" fill="#e4f4f2" stroke="#11897f"/><text x="395" y="162" text-anchor="middle" font-weight="700">Funcionales</text>
+      <rect x="490" y="142" width="140" height="30" rx="6" fill="#efebfa" stroke="#6b4fbb"/><text x="560" y="162" text-anchor="middle" font-weight="700">No funcionales</text>
+      <line x1="560" y1="172" x2="470" y2="186" stroke="#5b6370" marker-end="url(#ar)"/><line x1="560" y1="172" x2="590" y2="186" stroke="#5b6370" marker-end="url(#ar)"/>
+      <text x="420" y="202" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6b4fbb">Restricciones de tecnología</text>
+      <text x="575" y="202" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6b4fbb">Calidad de servicio</text>
+    </svg>
+    <figcaption>Redibujo simplificado de la figura 1.2 del SWEBOK. Ojo: es una clasificación distinta a la de Sommerville que viste en clase (ver sección 7).</figcaption>
+  </figure>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Requisitos de producto vs. de proyecto</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div><b>Producto:</b> especifican la forma, ajuste o función esperada del software. <b>Proyecto</b> (o de proceso, o de negocio): restringen al proyecto que lo construye: costo, plazo, personal, ambiente de pruebas, migración de datos, capacitación.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Producto: «calcular el promedio ponderado». Proyecto: «entregar el 2026-11-04 con 5 personas y presupuesto cero» (realismo universitario).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 45 (1-3)</span> 1.3</div></div>
+    </div>
+    <div class="card teal">
+      <h4>Requisito funcional <span class="en">· functional requirement</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Especifica <b>comportamientos observables</b> del software: las <b>políticas</b> que debe hacer cumplir y los <b>procesos</b> que debe llevar a cabo.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Banco: política «el saldo nunca puede ser negativo»; proceso «transferir dinero entre cuentas». Del libro, p. 46.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 46 (1-4)</span> 1.4</div></div>
+    </div>
+  </div>
+
+  <div class="card plum">
+    <h4>Requisito no funcional <span class="en">· nonfunctional requirement</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Restringe de algún modo las <b>tecnologías</b> a usar en la implementación: ¿qué plataforma?, ¿qué base de datos?, ¿qué tan exactos o qué tan rápidos deben ser los resultados?, ¿cuántos registros guardar? Se dividen en <b>restricciones de tecnología</b> y <b>restricciones de calidad de servicio</b>. Se afectan entre sí: si cambias uno, revisa el impacto en los demás.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>«El sistema deberá responder una consulta de notas en menos de 2 s con 3 000 estudiantes conectados». No cambia <i>qué</i> hace, sino <i>qué tan bien</i>.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 46 (1-4)</span> 1.5</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card plum">
+      <h4>Restricción de tecnología <span class="en">· technology constraint</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Obliga a usar <b>o prohíbe</b> una tecnología específica y con nombre, o una infraestructura definida.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>«Debe correr en Android», «la base de datos será PostgreSQL», «prohibido usar punteros» (el libro da este último).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 46</span> 1.6</div></div>
+    </div>
+    <div class="card plum">
+      <h4>Calidad de servicio <span class="en">· quality of service constraint</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>No nombra tecnologías: especifica los <b>niveles de desempeño aceptables</b> de la solución: tiempo de respuesta, throughput, exactitud, confiabilidad, escalabilidad. Lista de referencia: ISO/IEC 25010. Seguridad y safety se suelen olvidar.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>«99,5 % de disponibilidad en semana de exámenes».</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 46–47</span> 1.7</div></div>
+    </div>
+  </div>
+
+  <div class="card sun">
+    <h4>El filtro de la tecnología perfecta <span class="en">· Perfect Technology Filter</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Para separar RF de RNF: imagina una computadora de <b>velocidad infinita, memoria ilimitada, costo cero y que nunca falla</b>. Lo que <b>todavía</b> tendrías que pedir es funcional. Todo lo demás es no funcional.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Con la computadora perfecta igual necesitas «registrar la nota del estudiante» → RF. Pero «responder en 2 s» ya no tiene sentido (responde al instante) → RNF.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 47 (1-5)</span> 1.8 «Why Categorize Requirements This Way?»</div></div>
+  </div>
+
+  <div class="card">
+    <h4>¿Para qué categorizar así? (1.8)</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Cada categoría viene de <b>fuentes distintas</b> y se elicita, analiza, especifica y valida con técnicas y personas distintas. Además: (a) <b>divide y vencerás</b>: un problema grande se vuelve dos pequeños; (b) separa la experticia: el stakeholder sabe del negocio, el ingeniero sabe de tecnología. Un RNF en un dominio padre puede <b>inducir RF</b> en un dominio hijo (seguridad bancaria → funciones de autenticación).</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>No le das a la contadora del cliente un documento que mezcla «calcular IVA» con «usar Kubernetes». Se rinde a la página 2.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 47</span></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Requisitos de sistema vs. de software</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Un <b>sistema</b> (def. INCOSE) es una combinación de elementos que interactúan para lograr un objetivo: hardware, software, firmware, personas, información, instalaciones… Los requisitos de sistema aplican al todo; los de software, solo a la parte de software. Algunos de software se <b>derivan</b> de los de sistema.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Vehículo autónomo: «frenar ante un peatón» es del sistema; «detectar el peatón en la imagen en &lt;50 ms» es del software.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 47–48</span> 1.9</div></div>
+    </div>
+    <div class="card">
+      <h4>Requisito derivado <span class="en">· derived requirement</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Requisito que <b>no</b> lo pone un stakeholder externo, sino que se impone <b>dentro</b> del equipo de desarrollo. Depende de la perspectiva: para el cliente es una decisión de diseño; para el subequipo es un requisito.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>El arquitecto decide «tubos y filtros». Para el cliente da igual; para el equipo que hace un filtro, es ley.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 48 (1-6)</span> 1.10</div></div>
+    </div>
+  </div>
+
+  <h3>Las actividades de requisitos (figura 1.3, p. 48)</h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 150" width="100%" style="max-width:160mm" font-family="Segoe UI, Arial" font-size="12">
+      <rect x="5" y="5" width="400" height="140" rx="8" fill="#e4f4f2" stroke="#11897f"/>
+      <text x="205" y="26" text-anchor="middle" font-weight="700" fill="#11897f">DESARROLLO = «llegar a un acuerdo»</text>
+      <g font-weight="600">
+        <rect x="18" y="45" width="85" height="34" rx="5" fill="#fff" stroke="#11897f"/><text x="60" y="66" text-anchor="middle">Elicitación</text>
+        <rect x="113" y="45" width="85" height="34" rx="5" fill="#fff" stroke="#11897f"/><text x="155" y="66" text-anchor="middle">Análisis</text>
+        <rect x="208" y="45" width="95" height="34" rx="5" fill="#fff" stroke="#11897f"/><text x="255" y="66" text-anchor="middle">Especificación</text>
+        <rect x="313" y="45" width="85" height="34" rx="5" fill="#fff" stroke="#11897f"/><text x="355" y="66" text-anchor="middle">Validación</text>
+      </g>
+      <text x="205" y="105" text-anchor="middle" font-size="10.5" fill="#1f2328">sacar → entender → escribir → confirmar que es lo que de verdad necesitan</text>
+      <text x="205" y="125" text-anchor="middle" font-size="10.5" fill="#5b6370">(en la práctica se repite en vueltas, no es una sola pasada)</text>
+      <rect x="415" y="5" width="220" height="140" rx="8" fill="#fdeee9" stroke="#e4572e"/>
+      <text x="525" y="26" text-anchor="middle" font-weight="700" fill="#e4572e">GESTIÓN = «mantener el acuerdo»</text>
+      <g font-weight="600">
+        <rect x="430" y="40" width="190" height="28" rx="5" fill="#fff" stroke="#e4572e"/><text x="525" y="59" text-anchor="middle">Depuración (scrubbing)</text>
+        <rect x="430" y="74" width="190" height="28" rx="5" fill="#fff" stroke="#e4572e"/><text x="525" y="93" text-anchor="middle">Control de cambios</text>
+        <rect x="430" y="108" width="190" height="28" rx="5" fill="#fff" stroke="#e4572e"/><text x="525" y="127" text-anchor="middle">Ajuste de alcance (scope matching)</text>
+      </g>
+    </svg>
+    <figcaption>Desarrollo de requisitos = ponerse de acuerdo en qué se construye. Gestión = mantener ese acuerdo en el tiempo. <span class="ref">p. 48 (1-6)</span> 1.11</figcaption>
+  </figure>
+</section>
+
+<section class="sub">
+  <div class="sec-head"><div class="kicker">KA 1 · 2. Elicitación · p. 48–50</div><h2>Elicitación: sacarle los requisitos a la gente</h2></div>
+
+  <div class="card hot">
+    <h4>Elicitación <span class="en">· requirements elicitation</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Su meta es <b>hacer aflorar requisitos candidatos</b>. También se llama captura, descubrimiento o adquisición de requisitos. Una buena elicitación <b>reduce la incompletitud</b>, aunque nunca garantiza que el conjunto esté completo. <b>No es una actividad pasiva</b>: los usuarios no saben describir su trabajo, se callan cosas o no quieren colaborar, y muchos requisitos son tácitos.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Le preguntas a la secretaria cómo registra a los pacientes y te dice «fácil, en el sistema». Observándola descubres que lleva un cuaderno paralelo porque el sistema «a veces se come los datos». Eso no te lo iba a decir nunca.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 48 (1-6)</span> sección 2</div></div>
+  </div>
+
+  <div class="card hot">
+    <h4>Stakeholder (interesado) <span class="pill cajon">pregunta probable</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Cualquier persona, grupo u organización que: <b>(1)</b> participa activamente en el proyecto, <b>(2)</b> es <b>afectado</b> por su resultado, o <b>(3)</b> puede <b>influir</b> en su resultado.</div></div>
+    <div class="row"><div class="lab c">Tipos</div><div><b>Clientes</b> (pagan) · <b>customers</b> (deciden si se pone en servicio) · <b>usuarios</b> (interactúan directa o indirectamente; se dividen en clases de usuario) · expertos del dominio (SMEs) · personal de operaciones y soporte · gremios profesionales · <b>entes reguladores</b> · grupos de interés · <b>gente perjudicada si el proyecto tiene éxito</b> · desarrolladores.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Sistema de autoservicio en un supermercado: el gerente paga (cliente), el cajero lo usa… y también es el que podría quedarse sin trabajo si funciona bien. Sí, el SWEBOK incluye explícitamente a los perjudicados. Nadie dijo que la ingeniería fuera tierna.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 48–49</span> 2.1 «Requirements Sources»</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Clases de stakeholders y análisis de stakeholders</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Una <b>clase</b> agrupa stakeholders con perspectivas y necesidades parecidas. El <b>análisis de stakeholders</b> busca identificar todas las clases importantes para que los requisitos no queden sesgados hacia los que más hablan, y ayuda a negociar conflictos.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>En la app de la ESPOL, si solo entrevistas a los profes, la app servirá para poner notas y no para revisarlas.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 49 (1-7)</span></div></div>
+    </div>
+    <div class="card">
+      <h4>Fuentes que no son personas</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Documentación (versiones anteriores, misión, concepto de operaciones), <b>otros sistemas</b>, el contexto de negocio (políticas y procesos) y el ambiente de cómputo.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>El reglamento de la ESPOL dice cuántas veces puedes repetir una materia: requisito que no salió de ninguna entrevista.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 49</span></div></div>
+    </div>
+  </div>
+
+  <h3>Técnicas de elicitación <span class="ref">p. 49–50 (1-7 a 1-8)</span> 2.2</h3>
+  <div class="grid2">
+    <div class="mini"><b class="t">Con stakeholders</b>
+      <ul style="margin-bottom:0">
+        <li><b>Entrevistas</b></li>
+        <li><b>Reuniones</b>, con lluvia de ideas</li>
+        <li><b>JAD / JRP</b> y talleres facilitados</li>
+        <li>Análisis de protocolo</li>
+        <li><b>Grupos focales</b></li>
+        <li><b>Cuestionarios</b> y encuestas de mercado</li>
+        <li><b>Prototipado exploratorio</b> (baja y alta fidelidad)</li>
+        <li><b>User story mapping</b></li>
+      </ul></div>
+    <div class="mini"><b class="t">Sin stakeholders (u otras fuentes)</b>
+      <ul style="margin-bottom:0">
+        <li>Versiones previas y su base de defectos</li>
+        <li>Sistemas que se conectan con el nuevo</li>
+        <li>Benchmarking de la competencia, búsqueda de literatura</li>
+        <li>QFD (casa de la calidad)</li>
+        <li><b>Observación</b> del trabajo en su ambiente</li>
+        <li><b>Aprendizaje</b> (<i>apprenticing</i>): haces el trabajo para aprenderlo</li>
+        <li>Escenarios de uso, análisis de tareas, <b>descomposición</b> (capacidades → épicas → features → historias)</li>
+        <li><b>Design thinking</b>: empatizar, definir, idear, prototipar, probar</li>
+        <li>ISO 25010, requisitos de seguridad, normas y regulaciones</li>
+      </ul></div>
+  </div>
+  <div class="note" style="margin-top:8pt"><b>Ejemplo para el control:</b> «Apprenticing: el ingeniero aprende haciendo el trabajo. Ej.: para hacer el sistema de una panadería, trabajo dos madrugadas amasando y descubro que el pedido de harina depende del clima, cosa que el dueño nunca mencionó.» (Bonus: no hay mejor forma de entender por qué el panadero odia el software).</div>
+</section>
+
+<section class="sub">
+  <div class="sec-head"><div class="kicker">KA 1 · 3. Análisis · p. 50–52</div><h2>Análisis: entender lo que te dijeron</h2></div>
+
+  <div class="card">
+    <h4>Análisis de requisitos <span class="en">· requirements analysis</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Los requisitos casi nunca salen de la elicitación en su forma final. El análisis ayuda a entender el <b>significado y las implicaciones</b> de los requisitos candidatos, uno por uno y en el contexto de todo el conjunto.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 50 (1-8)</span> sección 3</div></div>
+  </div>
+
+  <div class="card hot">
+    <h4>Propiedades deseables de un requisito <span class="pill cajon">muy preguntable</span></h4>
+    <div class="grid2" style="gap:6pt">
+      <div><b>Cada requisito debe ser:</b>
+        <ul style="margin-bottom:0">
+          <li><b>No ambiguo</b>: una sola interpretación</li>
+          <li><b>Verificable (cuantificado)</b>: se puede demostrar si se cumple</li>
+          <li><b>Vinculante</b>: el cliente pagaría por él y no quiere quedarse sin él</li>
+          <li><b>Atómico</b>: una sola decisión</li>
+          <li>Representar necesidades <b>reales</b></li>
+          <li>Usar el <b>vocabulario del stakeholder</b></li>
+          <li><b>Aceptable</b> para todos los stakeholders</li>
+        </ul></div>
+      <div><b>El conjunto debe ser:</b>
+        <ul style="margin-bottom:0">
+          <li><b>Completo</b>: cubre límites, excepciones y seguridad</li>
+          <li><b>Conciso</b>: sin relleno</li>
+          <li><b>Consistente internamente</b>: no se contradicen entre sí</li>
+          <li><b>Consistente externamente</b>: no contradicen las fuentes</li>
+          <li><b>Factible</b>: se puede hacer dentro de costo, plazo y personal</li>
+        </ul></div>
+    </div>
+    <div class="row" style="margin-top:4pt"><div class="lab e">Ejemplo</div><div>«El sistema deberá ser rápido y fácil y enviar correos» falla en 3: es ambiguo («rápido»), no verificable y no es atómico (son 3 decisiones en una).</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 50</span> 3.1 «Basic Requirements Analysis»</div></div>
+  </div>
+
+  <div class="card sun">
+    <h4>Los 5 porqués <span class="en">· 5-whys</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>A veces lo que se elicita es una <b>solución</b>, no el problema real. Se pregunta repetidamente «¿por qué es este el requisito?» hasta llegar a «si no se hace eso, el problema del stakeholder no se resuelve». Normalmente basta con 2 o 3 vueltas; se llama «5» para que insistas.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>«Quiero un botón para exportar a Excel». ¿Por qué? Para mandar el reporte al jefe. ¿Por qué? Porque el jefe no tiene acceso al sistema. Problema real: <b>darle acceso al jefe</b>. El botón era la solución equivocada (y el Excel, una tragedia anunciada).</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 50</span></div></div>
+  </div>
+
+  <div class="card plum">
+    <h4>Economía de la calidad de servicio: punto de falla y punto de perfección</h4>
+    <div style="display:flex;gap:10pt;align-items:center">
+      <div style="flex:1">
+        <div class="row"><div class="lab d">SWEBOK</div><div>Para un RNF de calidad de servicio, el valor sube con el nivel de desempeño entre dos puntos: el <b>punto de falla</b> (peor nivel aceptable; por debajo ya no vale nada) y el <b>punto de perfección</b> (mejor nivel útil; por encima no aporta más). El costo sube en escalones. El nivel <b>más costo-efectivo</b> es donde la diferencia valor − costo es máxima. Además, unos RNF se ayudan entre sí (código mantenible suele ser más confiable) y otros se pelean (más velocidad suele dar menos mantenibilidad).</div></div>
+        <div class="row"><div class="lab e">Ejemplo</div><div>Una red social que soporte más usuarios que la población mundial ya pasó su punto de perfección (ejemplo del propio libro). Pagar por eso es tirar plata.</div></div>
+        <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 50–51 (1-8, 1-9)</span> 3.2, figuras 1.4 y 1.5</div></div>
+      </div>
+      <svg viewBox="0 0 170 120" width="46mm" font-family="Segoe UI, Arial" font-size="9">
+        <line x1="20" y1="100" x2="165" y2="100" stroke="#1f2328"/><line x1="20" y1="100" x2="20" y2="8" stroke="#1f2328"/>
+        <path d="M20,92 L50,92 C80,90 95,30 125,22 L160,22" fill="none" stroke="#6b4fbb" stroke-width="2.5"/>
+        <line x1="50" y1="100" x2="50" y2="88" stroke="#e4572e" stroke-dasharray="3,2"/><text x="50" y="112" text-anchor="middle" fill="#e4572e" font-weight="700">falla</text>
+        <line x1="125" y1="100" x2="125" y2="22" stroke="#11897f" stroke-dasharray="3,2"/><text x="125" y="112" text-anchor="middle" fill="#11897f" font-weight="700">perfección</text>
+        <text x="8" y="55" transform="rotate(-90 8 55)" text-anchor="middle">valor</text><text x="150" y="96" text-anchor="end">desempeño →</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Análisis formal</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Expresar requisitos en un <b>lenguaje con semántica formal</b>. Ventajas: son precisos y concisos (menos malinterpretación) y se puede <b>razonar y demostrar</b> propiedades (p. ej., ausencia de deadlock). Útil en sistemas de alta integridad.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>El software de un marcapasos. Ahí «más o menos funciona» no es una opción.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 51–52</span> 3.3</div></div>
+    </div>
+    <div class="card">
+      <h4>Manejo de conflictos</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Dos enfoques: <b>(1) negociar</b> entre stakeholders (no decidir unilateralmente; que quede trazable al cliente); <b>(2) familia de productos</b>: separar requisitos <b>invariantes</b> (todos de acuerdo) de <b>variantes</b> (en conflicto) y diseñar puntos de configuración.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Unos quieren °C y otros °F: no peleas, pones una opción de configuración (ejemplo del libro).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 52 (1-10)</span> 3.4</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sub">
+  <div class="sec-head"><div class="kicker">KA 1 · 4. Especificación · p. 52–57</div><h2>Especificación: dejarlo por escrito</h2></div>
+
+  <div class="card">
+    <h4>Especificación de requisitos <span class="en">· requirements specification</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Registrar los requisitos para que se puedan <b>recordar y comunicar</b>. Es el tema más polémico del KA: ¿se escriben?, ¿en qué forma?, ¿se mantienen? No hay respuesta estándar: depende del riesgo, la rotación de personal, si el equipo está distribuido, si se terceriza, contratos, etc. Recomendación básica: hacer un <b>análisis de audiencia</b> (quién lee qué y cómo dárselo con el menor esfuerzo).</div></div>
+    <div class="row"><div class="lab c">Idea fina</div><div>El <b>qué</b> y el <b>cómo</b> del trabajo de requisitos los define la naturaleza del software, <b>no el ciclo de vida</b>. Un mantenedor futuro no debería poder adivinar si usaron cascada o Scrum mirando los requisitos. En cascada están completos al final de la fase de requisitos; en ágil cambian y crecen hasta el final.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>La startup que «no necesita documentar» funciona hasta que el único que sabía por qué existe el botón rojo se va a Canadá.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 52–53 (1-10, 1-11)</span> sección 4. Plantillas: ISO/IEC/IEEE 29148 (la misma de tu proyecto parcial).</div></div>
+  </div>
+
+  <table>
+    <tr><th style="width:23%">Técnica de especificación</th><th>Qué es</th><th style="width:33%">Ejemplo</th><th style="width:7%">Pág.</th></tr>
+    <tr><td><b>Lenguaje natural no estructurado</b></td><td>Frases comunes tipo «El sistema deberá…». Incluye <b>reglas de negocio</b>: frases que definen o restringen la estructura o el comportamiento del negocio.</td><td>«Un estudiante no puede matricularse si tiene valores pendientes» (del libro).</td><td>53</td></tr>
+    <tr><td><b>Lenguaje natural estructurado</b></td><td>Impone una forma para ganar precisión. El más simple: <b>actor-acción</b> = [evento disparador] + actor + acción + [condición]. También plantillas de <b>casos de uso</b>, <b>historias de usuario</b> y tablas de decisión.</td><td>«<u>Cuando se despacha un pedido</u>, <u>el sistema</u> deberá <u>crear una factura</u>, <u>salvo que sea prepagado</u>».</td><td>54</td></tr>
+    <tr><td><b>Basada en criterios de aceptación</b> (ATDD y BDD)</td><td>Escribir los requisitos <b>como casos de prueba</b>. Ataca directamente la <b>ambigüedad</b> (el lenguaje de prueba es preciso), pero no resuelve sola la incompletitud.</td><td>Ver BDD abajo.</td><td>54–55</td></tr>
+    <tr><td><b>Basada en modelos</b></td><td>Usar UML o SysML como «planos». <b>Estructurales</b> (modelo de clases, entidad-relación) para políticas; <b>de comportamiento</b> (casos de uso, estados, actividades, flujo de datos) para procesos. Formalidad: ágil (bocetos) &lt; semiformal &lt; formal (Z, VDM).</td><td>Diagrama de estados de un préstamo: activo → vencido → devuelto.</td><td>56</td></tr>
+  </table>
+
+  <div class="grid2">
+    <div class="card teal">
+      <h4>Historia de usuario (formato SWEBOK)</h4>
+      <div class="quote" style="margin:2pt 0 4pt">Como &lt;rol&gt; quiero &lt;capacidad&gt; para &lt;beneficio&gt;</div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>«Como estudiante con 3 parciales la misma semana, quiero ver todas mis fechas en un calendario para planificar mi colapso nervioso con anticipación».</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 54 (1-12)</span> 4.2 y 4.3</div></div>
+    </div>
+    <div class="card teal">
+      <h4>Escenario BDD</h4>
+      <div class="quote" style="margin:2pt 0 4pt">Dado &lt;contexto&gt;, cuando &lt;estímulo&gt;, entonces &lt;resultado&gt;</div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Dado saldo de $50 y tarjeta válida, cuando pido $100 en el cajero, entonces no entrega dinero, avisa saldo insuficiente, el saldo sigue en $50 y devuelve la tarjeta (ejemplo del libro, p. 55).</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>ATDD en 3 pasos <span class="en">· acceptance test driven development</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Parte de TDD (las pruebas van antes del código). <b>1)</b> Se elige una unidad de funcionalidad (p. ej., una historia). <b>2)</b> Ingenieros, expertos del negocio y QA acuerdan, antes de programar, las pruebas que deben pasar. <b>3)</b> Al menos una debe fallar con el software actual; eso da «permiso» para programar hasta que todas pasen. Truco: cambia «esperamos que el software produzca Y» por «el software deberá producir Y» y la prueba se vuelve un requisito.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 54–55</span>. BDD es la versión más amigable para el negocio (historias + escenarios).</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Atributos adicionales</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Además del texto, documentar: etiqueta para trazabilidad, descripción, <b>justificación</b>, <b>fuente</b>, tipo, dependencias, conflictos, <b>criterios de aceptación</b>, <b>prioridad</b>, <b>estabilidad</b>, historial de cambios…</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 56–57</span> 4.5</div></div>
+    </div>
+    <div class="card">
+      <h4>Especificación incremental vs. integral</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div><b>Incremental:</b> cada versión solo trae los cambios (menos papel). <b>Integral</b> (<i>comprehensive</i>): cada versión trae todos los requisitos (un solo documento para entender todo). Se combinan: versiones x.1 incrementales, versiones 1.0, 2.0 integrales.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 57 (1-15)</span> 4.6</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sub">
+  <div class="sec-head"><div class="kicker">KA 1 · 5–7. Validación, gestión y práctica · p. 57–61</div><h2>Validar, gestionar y no morir en el intento</h2></div>
+
+  <div class="card hot">
+    <h4>Validación de requisitos <span class="en">· requirements validation</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Ganar <b>confianza</b> en que los requisitos representan las <b>verdaderas necesidades</b> de los stakeholders, tal como se entienden hoy. Preguntas: ¿están todos?, ¿hay alguno que no representa una necesidad real?, ¿están bien escritos, son entendibles, consistentes y completos?, ¿cumplen los estándares? <b>3 métodos:</b> revisiones, simulación/ejecución y prototipado.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 57 (1-15)</span> sección 5</div></div>
+  </div>
+
+  <div class="grid3">
+    <div class="mini"><b class="t">1. Revisiones</b>La forma más común: revisores buscan errores, omisiones, supuestos inválidos y falta de claridad. Mejor desde varias perspectivas: usuarios, expertos en requisitos y quienes van a diseñar. Ayuda dar checklists o una «definition of done».<br><i>Ej.:</i> la ayudante «abogada del diablo» revisando tu ERS.<br><span class="ref">p. 57–58</span></div>
+    <div class="mini"><b class="t">2. Simulación y ejecución</b>Si la especificación es formal o basada en modelos, se «ejecuta» con escenarios para convencer a stakeholders que no quieren leer documentos.<br><i>Ej.:</i> recorrer el diagrama de estados del pedido con el dueño del local, paso a paso.<br><span class="ref">p. 58</span></div>
+    <div class="mini"><b class="t">3. Prototipado</b>Un prototipo muestra cómo interpretó el ingeniero los requisitos y expone sus supuestos. <b>Riesgo:</b> lo cosmético distrae de la funcionalidad, y puede ser caro.<br><i>Ej.:</i> el cliente pasa 40 min discutiendo el color del botón y 0 min viendo si el cálculo está bien.<br><span class="ref">p. 58 (1-16)</span></div>
+  </div>
+
+  <h3>Gestión de requisitos <span class="ref">p. 58–59</span> sección 6</h3>
+  <div class="grid3">
+    <div class="mini"><b class="t">Depuración (scrubbing)</b>Encontrar el <b>conjunto más pequeño</b> de requisitos simples que satisfaga las necesidades: eliminar los que están fuera de alcance, no dan retorno o no son tan importantes, y simplificar los complicados. En ágil ocurre en la planificación del sprint.<br><i>Ej.:</i> «modo oscuro con IA que detecta tu estado de ánimo» → fuera.</div>
+    <div class="mini"><b class="t">Control de cambios</b>En procesos por plan: forma de pedir cambios, análisis de impacto (opcional), un responsable que acepta/rechaza/difiere, notificar y dar seguimiento. Aceptar un cambio = aceptar su impacto en plazo y recursos. En ágil: el cambio es un ítem más del <b>product backlog</b> y se «acepta» cuando entra a un sprint.<br><span class="ref">p. 59 (1-17)</span></div>
+    <div class="mini"><b class="t">Ajuste de alcance (scope matching)</b>Asegurar que el alcance no supere costo, plazo o personal. Si lo supera: reducir alcance (quitar lo de menor prioridad), aumentar capacidad, o negociar. En ágil: con planificación por velocidad solo entra al sprint lo que se puede terminar.<br><span class="ref">p. 59</span></div>
+  </div>
+
+  <h3 style="margin-top:12pt">Consideraciones prácticas <span class="ref">p. 59–61</span> sección 7</h3>
+  <div class="card">
+    <h4>Priorización y el modelo de Kano</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Priorizar sirve para entregar primero lo más valioso, resolver conflictos y ajustar alcance. Factores: valor, insatisfacción si falta, costo de entregar y mantener, riesgo técnico, riesgo de que nadie lo use. El <b>modelo de Kano</b> dice que no basta con ver cuánto gusta algo: hay que ver cuánto <b>enoja que falte</b>. Fórmula de ejemplo: prioridad = valor × (1 − riesgo) / costo. Se comunica con escalas (must/should/nice to have), números o listas ordenadas.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Cliente de correo: el filtro de spam gusta más, pero no poder abrir adjuntos enoja muchísimo más → los adjuntos van primero (ejemplo del libro, p. 60).</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 59–60 (1-17, 1-18)</span> 7.2</div></div>
+  </div>
+  <div class="grid3">
+    <div class="mini"><b class="t">Proceso iterativo (7.1)</b>Los requisitos tienen amplitud y profundidad; es casi imposible hacerlos en una sola pasada.<br><span class="ref">p. 59</span></div>
+    <div class="mini"><b class="t">Trazabilidad (7.3)</b>Dos usos: (1) comprobar consistencia: ¿cada requisito tiene diseño que lo cumpla?, ¿cada elemento de diseño tiene un requisito que lo justifique?; (2) <b>análisis de impacto</b> de un cambio (requisito → diseño → código → pruebas). Hacia atrás (a las fuentes) y hacia adelante.<br><span class="ref">p. 60–61</span></div>
+    <div class="mini"><b class="t">Estabilidad y volatilidad (7.4)</b>Unos requisitos casi nunca cambian (calcular intereses en un banco) y otros sí (cuentas libres de impuestos, que dependen de una ley). Identificar los volátiles ayuda a diseñar para el cambio.<br><span class="ref">p. 61 (1-19)</span></div>
+  </div>
+  <div class="note" style="margin-top:8pt"><b>Medir requisitos (7.5) <span class="ref">p. 61</span>:</b> la <b>medición de tamaño funcional (FSM)</b> evalúa el tamaño de un conjunto de requisitos funcionales; los <b>story points</b> también cuentan como medida de tamaño. Sirve para estimar costo y el tamaño de un cambio.</div>
+</section>
+
+<!-- ============ 4. CALIDAD ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 4 · KA 12 · p. 246–257</div><h2>Calidad de software</h2></div>
+  <p class="lead">El profe la nombró textual: «¿qué es software quality en el contexto de ingeniería de software? 2 o 3 líneas».</p>
+
+  <div class="card hot">
+    <h4>Calidad de software <span class="en">· software quality</span> <span class="pill cajon">la nombró el profe</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>El <b>grado en que un producto de software cumple los requisitos establecidos</b>; pero la calidad depende de qué tan bien esos requisitos <b>representan las necesidades, deseos y expectativas</b> de los stakeholders. Otra definición: la capacidad del producto de satisfacer necesidades <b>declaradas e implícitas</b> bajo condiciones especificadas.</div></div>
+    <div class="row"><div class="lab c">Matiz</div><div>El término está «sobrecargado»: puede referirse a las características deseables del producto, a qué tanto las tiene (<b>calidad del producto</b>) o a los procesos para lograrlas (<b>calidad del proceso</b>). Históricamente: Crosby, «conformidad con los requisitos»; Humphrey, «aptitud para el uso» (<i>fitness for use</i>); IBM, «el cliente es el árbitro final».</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Un sistema que cumple el 100 % de los requisitos, pero los requisitos olvidaron a los usuarios con discapacidad visual: cumple el papel, pero no tiene la calidad que la gente necesitaba. Calidad = cumplir <b>lo correcto</b>.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 246 (12-1)</span> Introduction y <span class="ref">p. 248 (12-3)</span> 1. Fundamentals</div></div>
+  </div>
+
+  <h3>Error → defecto → falla (la cadena del desastre) <span class="ref">p. 248</span></h3>
+  <figure class="fig">
+    <svg viewBox="0 0 640 110" width="100%" style="max-width:160mm" font-family="Segoe UI, Arial" font-size="12">
+      <defs><marker id="a2" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#1f2328"/></marker></defs>
+      <rect x="5" y="10" width="190" height="90" rx="8" fill="#fff6dc" stroke="#f2a900"/>
+      <text x="100" y="32" text-anchor="middle" font-weight="700" font-size="14">😵 ERROR</text>
+      <text x="100" y="52" text-anchor="middle" font-size="10.5">acción humana que produce</text><text x="100" y="66" text-anchor="middle" font-size="10.5">un resultado incorrecto</text>
+      <text x="100" y="88" text-anchor="middle" font-size="10" fill="#5b6370">«escribí &gt; en vez de &gt;=»</text>
+      <line x1="197" y1="55" x2="225" y2="55" stroke="#1f2328" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="227" y="10" width="190" height="90" rx="8" fill="#efebfa" stroke="#6b4fbb"/>
+      <text x="322" y="32" text-anchor="middle" font-weight="700" font-size="14">🐛 DEFECTO (fault)</text>
+      <text x="322" y="52" text-anchor="middle" font-size="10.5">imperfección en el producto que</text><text x="322" y="66" text-anchor="middle" font-size="10.5">no cumple su especificación</text>
+      <text x="322" y="88" text-anchor="middle" font-size="10" fill="#5b6370">duerme en el código, esperando</text>
+      <line x1="419" y1="55" x2="447" y2="55" stroke="#1f2328" stroke-width="2" marker-end="url(#a2)"/>
+      <rect x="449" y="10" width="186" height="90" rx="8" fill="#fdeee9" stroke="#e4572e"/>
+      <text x="542" y="32" text-anchor="middle" font-weight="700" font-size="14">💥 FALLA (failure)</text>
+      <text x="542" y="52" text-anchor="middle" font-size="10.5">el sistema no puede hacer una</text><text x="542" y="66" text-anchor="middle" font-size="10.5">función requerida; es visible</text>
+      <text x="542" y="88" text-anchor="middle" font-size="10" fill="#5b6370">ocurre al ejecutar el defecto</text>
+    </svg>
+    <figcaption>El error lo comete una persona; el defecto queda en el software; la falla es lo que ve el usuario cuando se ejecuta el defecto.</figcaption>
+  </figure>
+  <div class="note"><b>Ejemplo completo para el control:</b> a las 3 a. m. el programador escribe <code>nota &gt; 6</code> en vez de <code>nota &gt;= 6</code> (<b>error</b>). Esa línea queda en el sistema (<b>defecto</b>) y nadie lo nota durante meses. El día que sale la nota final, todos los que sacaron exactamente 6 aparecen reprobados (<b>falla</b>). Moraleja: el defecto existía desde siempre; la falla solo esperaba el peor día posible.</div>
+
+  <div class="grid2">
+    <div class="card teal">
+      <h4>Costo de la calidad <span class="en">· CoSQ</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Suma de costos de implementación, <b>prevención</b> (mejora de procesos, herramientas, capacitación), <b>evaluación</b> (revisiones, auditorías, pruebas) y <b>no conformidad</b> (retrabajo por fallas internas y externas). Se agrupa en costo de <b>conformidad</b> (prevenir + detectar) y de <b>no conformidad</b> (arreglar). Meta: el CoSQ <b>mínimo</b> para un nivel de calidad dado.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Ahorrarte las pruebas «para ir más rápido» es como ahorrarte el freno para que el carro pese menos.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 249 (12-4)</span> 1.2</div></div>
+    </div>
+    <div class="card teal">
+      <h4>Verificación vs. validación (V&amp;V)</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div><b>Verificación:</b> asegura que el producto se construye <b>correctamente</b>: lo que sale de una fase cumple lo que se le impuso al inicio de esa fase. <b>Validación:</b> asegura que se construye el <b>producto correcto</b>: cumple su propósito previsto.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Construir perfecto, según los planos, un puente que va al lugar equivocado: verificado ✅, validado ❌.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 257 (12-12)</span></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4>Dependability y sistemas críticos (safety-critical)</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Los sistemas <b>críticos para la seguridad</b> son aquellos donde una falla puede dañar vidas, seres vivos, estructuras o el ambiente; exigen métodos sistemáticos y estándares (p. ej., DO-178C en aviación, EN 50128 en trenes). Tres técnicas para reducir el riesgo de falla: <b>evitar</b>, <b>detectar y eliminar</b>, y <b>limitar el daño</b>. Más riesgo = más SQA e inspecciones más rigurosas.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>El software de frenado de un tren: aquí «se cayó el sistema» no significa «recarga la página».</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 250 (12-5)</span> 1.4 «Software Dependability and Integrity Levels»</div></div>
+  </div>
+</section>
+
+<!-- ============ 5. PROCESO ============ -->
+<section class="sub">
+  <div class="sec-head"><div class="kicker">Sección 5 · KA 10 y KA 11 · p. 221–242</div><h2>Procesos, ciclos de vida y ágil</h2></div>
+
+  <div class="card hot">
+    <h4>Proceso, actividad y tarea</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div><b>Proceso:</b> conjunto de actividades relacionadas que <b>transforman entradas en salidas</b>. <b>Actividad:</b> conjunto cohesivo de tareas de un proceso. <b>Tarea:</b> acción requerida, recomendada o permitida que contribuye a lograr un resultado del proceso. La salida de un proceso puede ser la entrada de otro.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Proceso: pruebas (entrada: código; salida: reporte de defectos). Actividad: pruebas de integración. Tarea: probar que el login se conecta con la base de datos.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 223 (10-3)</span> 1.2. Coincide con la jerarquía actividad → acción → tarea que viste en clase.</div></div>
+  </div>
+
+  <div class="card">
+    <h4>Ciclo de vida <span class="en">· life cycle</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>La <b>evolución</b> de un sistema, producto, servicio o proyecto <b>desde su concepción hasta su retiro</b>. Un ciclo de vida se crea conforme a un <b>modelo de ciclo de vida</b> (cascada, V, incremental, espiral, ágil). Etapas típicas: concepto, desarrollo, producción, utilización, soporte y retiro.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>El sistema académico nace en una reunión (concepto), se construye, se usa por 15 años, recibe parches y un día lo apagan sin que nadie llore. Ciclo de vida completo.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 223</span> 2.1, <span class="ref">p. 225</span> 2.3, etapas en <span class="ref">p. 227 (10-7)</span></div></div>
+  </div>
+
+  <h3>Tipos de ciclo de vida <span class="ref">p. 225 (10-5)</span> 2.4</h3>
+  <table>
+    <tr><th style="width:17%">Tipo</th><th>Idea clave (SWEBOK)</th><th style="width:34%">Ejemplo</th></tr>
+    <tr><td><b>Predictivo</b></td><td>Alcance, tiempo y costo se fijan al <b>inicio</b>. Supone que los requisitos son un conjunto cerrado que no cambia «salvo fuerza mayor».</td><td>Software del controlador de un ascensor con especificación firmada.</td></tr>
+    <tr><td><b>Iterativo</b></td><td>El alcance se fija temprano, pero tiempo y costo se ajustan a medida que se entiende el producto. Ciclos repetidos.</td><td>Cada ciclo mejoras la misma app según lo aprendido.</td></tr>
+    <tr><td><b>Evolutivo</b></td><td>El producto cambia a lo largo de su vida, porque cambian las necesidades o porque los requisitos entran en pasos sucesivos.</td><td>Una red social: nunca está «terminada».</td></tr>
+    <tr><td><b>Incremental</b></td><td>El entregable se produce en iteraciones que <b>agregan funcionalidad</b>; solo está completo tras la última. Puede ser predictivo.</td><td>V1: buscar libros. V2: renovar. V3: notificaciones.</td></tr>
+    <tr><td><b>Desarrollo continuo</b></td><td>Prácticas que permiten liberaciones frecuentes a ambientes de prueba con herramientas automáticas.</td><td>CI/CD que despliega cada commit a staging.</td></tr>
+  </table>
+  <p class="small">Un ciclo de vida es <b>abierto al cambio</b> si permite cambiar requisitos incluso después de firmados (una de las banderas de ágil). Los predictivos lo prohíben una vez cerrada la fase de requisitos <span class="ref">p. 225</span>.</p>
+
+  <h3>Los modelos clásicos según el SWEBOK <span class="ref">p. 226 (10-6)</span> 2.5</h3>
+  <div class="grid2">
+    <div class="mini"><b class="t">Cascada (waterfall)</b>Predictivo y <b>dirigido por documentos</b>. Fases en orden estricto (requisitos, diseño preliminar, detallado, código, pruebas); una no empieza hasta terminar la anterior, con poca o ninguna iteración. Aportó sistematización y fue un primer intento de responder a la <b>crisis del software</b>. Variante: <b>modelo V</b>.<br><i>Ej.:</i> perfecto si nada cambia. O sea, en otro universo.</div>
+    <div class="mini"><b class="t">Espiral (Boehm)</b><b>Evolutivo y dirigido por riesgos</b> (no por documentos ni código). Las actividades (análisis, diseño, código, integración, pruebas) se repiten iterativamente hasta terminar el software.<br><i>Ej.:</i> sistema de control de un satélite: cada vuelta ataca primero lo que más miedo da.</div>
+    <div class="mini"><b class="t">Prototipado rápido</b>Se desarrollan prototipos <b>temprano</b> para obtener retroalimentación y análisis desde el inicio.<br><i>Ej.:</i> maqueta en Figma de la app antes de programar.</div>
+    <div class="mini"><b class="t">Proceso Unificado / RUP</b>Marco de desarrollo <b>iterativo e incremental</b>. RUP y OpenUP vienen del Proceso Unificado.<br><i>Ej.:</i> proyecto grande que necesita iterar pero con gobernanza.</div>
+  </div>
+
+  <div class="card plum" style="margin-top:8pt">
+    <h4>Manifiesto Ágil y los 3 mitos <span class="en">· Agile Manifesto</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Cambió la mentalidad: el proceso debe estar <b>abierto al cambio</b>, con comunicación cara a cara, confianza equipo-cliente y <b>entregas pequeñas</b> en vez de una sola al final. Distingue <b>valores y principios</b> (entregar valor, excelencia técnica) de <b>prácticas</b> (pair programming, sprint planning, retrospectiva). <b>El manifiesto NO dice que no se documente</b>.</div></div>
+    <div class="row"><div class="lab c">3 mitos</div><div>❌ «Ágil es un método» (no lo es; Scrum y XP sí son métodos) · ❌ «Ágil es más rápido porque no se documenta» · ❌ «Ágil tiene pocas prácticas o es desordenado».</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 226–227 (10-6, 10-7)</span></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>DevOps</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Conjunto de principios y prácticas que mejoran la <b>comunicación y colaboración</b> entre stakeholders para especificar, desarrollar y <b>operar</b> software, con mejora continua en todo el ciclo de vida. Rompe los «silos» entre desarrollo y operaciones.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Antes: «en mi máquina funciona» vs. «en producción no». Con DevOps, los dos equipos comparten la culpa… digo, los procesos.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 227</span>; también KA 6 <span class="ref">p. 151</span></div></div>
+    </div>
+    <div class="card">
+      <h4>Prototipado como método (KA 11)</h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Crear versiones incompletas o mínimas para probar ideas o pedir retroalimentación. Empieza por lo <b>menos entendido</b> (al revés que otros métodos). Estilos: desechable o en papel, evolutivo, o especificación ejecutable. Normalmente el prototipo <b>no</b> se vuelve el producto final sin mucho retrabajo.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 241 (11-9)</span> 4.3</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sub">
+  <div class="sec-head"><div class="kicker">KA 11 · 4.4 Agile Methods · p. 241–242</div><h2>Métodos ágiles y Scrum, versión SWEBOK</h2></div>
+
+  <div class="card hot">
+    <h4>Métodos ágiles</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Surgieron en los años 90 para reducir la carga de los métodos pesados basados en planes. Son «ligeros» por: <b>ciclos cortos e iterativos</b>, <b>equipos autoorganizados</b>, diseño simple, refactorización, TDD, <b>participación frecuente del cliente</b> y un <b>producto funcionando</b> en cada ciclo. Se pueden ver como el ciclo de Deming <b>PDCA</b> (planificar-hacer-verificar-actuar) aplicado al software.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 241–242 (11-9, 11-10)</span></div></div>
+  </div>
+
+  <div class="card teal">
+    <h4>Scrum según el SWEBOK</h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>El enfoque ágil <b>más amigable con la gestión de proyectos</b>. El <b>Scrum Master</b> gestiona las actividades dentro del incremento. Cada incremento es un <b>sprint</b> de <b>no más de 30 días</b>. El <b>Product Owner</b> decide qué entra al <b>product backlog</b>; sus tareas se identifican, definen, priorizan y estiman. En cada incremento se prueba y libera una versión funcionando. El <b>Daily Scrum</b> asegura que el trabajo siga el plan.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>Proyecto CogniSync: sprints de 2 semanas, el PO ordena el backlog, cada mañana 15 minutos de «qué hice, qué haré, qué me bloquea» (el bloqueo suele llamarse «el compañero que no contesta el WhatsApp»).</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 242 (11-10)</span></div></div>
+  </div>
+
+  <table>
+    <tr><th style="width:15%">Método</th><th>Qué lo distingue (SWEBOK)</th><th style="width:30%">Ejemplo</th></tr>
+    <tr><td><b>RAD</b></td><td>Para sistemas de negocio con muchos datos; usa herramientas especiales de bases de datos para desarrollar y desplegar rápido.</td><td>Un sistema de inventario armado con herramientas low-code.</td></tr>
+    <tr><td><b>XP</b></td><td>Historias para requisitos, <b>pruebas primero</b>, cliente dentro del equipo, <b>programación en parejas</b>, refactorización e integración continua. Entregas cada par de semanas.</td><td>Dos programadores, un teclado y una amistad a prueba de fuego.</td></tr>
+    <tr><td><b>Scrum</b></td><td>Sprints ≤ 30 días, Scrum Master, Product Owner, backlog, Daily Scrum.</td><td>Ver arriba.</td></tr>
+    <tr><td><b>FDD</b></td><td>Dirigido por modelos, 5 fases (modelo del producto, lista de features, plan, diseño por feature, codificar-probar-integrar). El código tiene <b>dueño individual</b> y pesa más la arquitectura.</td><td>Cada feature tiene un responsable con nombre y apellido (y culpa asignada).</td></tr>
+    <tr><td><b>Lean</b></td><td>Principios de manufactura de Toyota: <b>Producto Mínimo Viable</b>, aprender del usuario e iterar; optimizar todo el flujo de valor. <b>Kanban</b> aplica ideas Lean para visualizar y manejar el flujo.</td><td>Lanzar la app solo con «pedir café» y ver si alguien la usa antes de añadir el resto.</td></tr>
+  </table>
+
+  <div class="note"><b>Lo que agrega la clase sobre Scrum</b> <span class="pill clase">slides 03b / guía</span>: 3 roles (Product Owner, Scrum Master, equipo de desarrollo de 5–9 personas según las slides), 3 artefactos (product backlog, sprint backlog, incremento potencialmente entregable), eventos (sprint, planning, daily de 15 min, review, retrospectiva), tareas de ≤ 16 h, burndown y <b>velocidad = puntos de historia de lo que quedó «Done»</b> (una historia al 90 % aporta 0). Si preguntan «según el SWEBOK», usa la tarjeta de arriba; si preguntan por la clase, usa esto.</div>
+
+  <div class="warn"><b>Trampa:</b> el SWEBOK dice que el Scrum Master «gestiona las actividades»; la Guía Scrum moderna lo describe como facilitador que no asigna tareas. Si te preguntan <i>según el SWEBOK</i>, responde con la versión del SWEBOK.</div>
+</section>
+
+<!-- ============ 6. OTRAS KAs ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 6 · Las KAs que el profe nombró en clase</div><h2>SCM, mantenimiento, gestión y economía</h2></div>
+  <p class="lead">En la Sesión 03 mencionó explícitamente <i>configuration management</i>, <i>software quality</i> y <i>software engineering economics</i>. Calidad ya la viste; aquí van las otras con un poco más de detalle.</p>
+
+  <div class="card hot">
+    <h4>Gestión de configuración del software <span class="en">· SCM</span> <span class="pill cajon">la nombró el profe</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>El proceso de aplicar la gestión de configuración <b>durante todo el ciclo de vida</b> para asegurar la <b>completitud y corrección</b> de los <b>ítems de configuración</b> (CIs). La gestión de configuración es la disciplina de: <b>identificar y documentar</b> las características de un CI, <b>controlar sus cambios</b>, <b>registrar y reportar</b> el estado de los cambios, y <b>verificar</b> que cumple los requisitos. Apoya a la gestión del proyecto, desarrollo, mantenimiento y aseguramiento de calidad.</div></div>
+    <div class="row"><div class="lab c">En cristiano</div><div>Saber exactamente qué versión de cada cosa (código, documentos, pruebas) tienes, quién la cambió, por qué, y poder volver atrás.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>En el proyecto, el ERS y el código están en Git; la versión entregada el 2026-11-04 queda etiquetada como v1.0. Cuando el cliente jure que «eso no lo pidió», abres el historial y le enseñas el commit con su correo de aprobación. Venganza documentada.</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 185 (8-1)</span> Introduction</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Línea base <span class="en">· baseline</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Versión <b>formalmente aprobada</b> de un CI, fijada en un momento de su ciclo de vida. Solo se puede cambiar mediante <b>control de cambios formal</b>.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>El ERS firmado por el cliente. Cambiarlo ya no es «un detallito», es una solicitud de cambio.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 191 (8-7)</span> 2.3</div></div>
+    </div>
+    <div class="card">
+      <h4>Mantenimiento de software <span class="en">· software maintenance</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>La <b>totalidad de actividades</b> necesarias para dar <b>soporte costo-efectivo</b> al software en operación. Ocurre antes de la entrega (planificar, mantenibilidad, logística) y después (modificar, capacitar, soporte).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 167 (7-1)</span></div></div>
+    </div>
+  </div>
+
+  <h3>Los tipos de mantenimiento <span class="ref">p. 170–171 (7-4, 7-5)</span></h3>
+  <table>
+    <tr><th style="width:15%">Tipo</th><th>Qué es</th><th style="width:40%">Ejemplo</th></tr>
+    <tr><td><b>Correctivo</b></td><td>Reparación <b>reactiva</b> después de la entrega para corregir problemas descubiertos.</td><td>Arreglar el bug que reprobaba a los que sacaron 6.</td></tr>
+    <tr><td><b>Preventivo</b></td><td>Corregir <b>fallas latentes</b> antes de que se manifiesten en producción.</td><td>Ver que el campo «año» explota en 2038 y arreglarlo hoy.</td></tr>
+    <tr><td><b>Adaptativo</b></td><td>Mantener el software usable en un <b>ambiente que cambia</b>.</td><td>Adaptar la app a la nueva versión de Android.</td></tr>
+    <tr><td><b>Aditivo</b></td><td>Agregar funciones o features <b>relativamente grandes</b> después de la entrega.</td><td>Añadir pagos en línea a la app de reservas.</td></tr>
+    <tr><td><b>Perfectivo</b></td><td>Mejoras para usuarios, mejor documentación, recodificar para mejorar rendimiento o mantenibilidad.</td><td>Refactorizar el módulo que solo entiende el que ya renunció.</td></tr>
+    <tr><td><b>De emergencia</b></td><td>Modificación <b>no programada</b> para mantener el sistema operando temporalmente, mientras llega la corrección.</td><td>Parche a medianoche porque el sistema de pagos se cayó el día de la quincena.</td></tr>
+  </table>
+  <p class="small">ISO/IEC/IEEE 14764 agrupa correctivo y preventivo como <b>correcciones</b>; adaptativo, aditivo y perfectivo como <b>mejoras</b> (figura 7.2).</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Gestión de ingeniería de software <span class="en">· SEM</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Conjunto de actividades de <b>planificar, estimar, medir, controlar, coordinar, liderar y gestionar riesgos</b> de un proyecto, para entregar productos y servicios de forma eficiente, eficaz y en beneficio de los stakeholders. El software es <b>intangible y maleable</b>, por eso se gestiona distinto a lo físico.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 202 (9-1)</span></div></div>
+    </div>
+    <div class="card">
+      <h4>Riesgo <span class="en">· risk</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>La <b>incertidumbre</b> es falta de información; el <b>riesgo</b> es el efecto de la incertidumbre sobre los objetivos, con consecuencias negativas (amenazas) <b>o positivas</b> (oportunidades). Gestionarlo = identificar, analizar probabilidad e impacto, priorizar y mitigar.</div></div>
+      <div class="row"><div class="lab e">Ejemplo</div><div>Riesgo: el cliente del proyecto deja de responder. Mitigación: tener su aprobación por escrito de cada entrega.</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 210 (9-9)</span> 2.5</div></div>
+    </div>
+  </div>
+
+  <div class="card hot">
+    <h4>Economía de la ingeniería de software <span class="en">· software engineering economics</span> <span class="pill cajon">la nombró el profe</span></h4>
+    <div class="row"><div class="lab d">SWEBOK</div><div>Ayuda a que las decisiones técnicas se <b>alineen con los objetivos del negocio</b>. La economía es la <b>ciencia de elegir</b>, no la ciencia del dinero; la economía de la ingeniería es la rama aplicada de la microeconomía. Pregunta central: ¿conviene invertir los recursos limitados en esto, o rendirían más en otra cosa? Ingeniería es equilibrar lo <b>técnicamente posible</b> con lo <b>económicamente aceptable</b>. El software debe generar <b>valor</b>.</div></div>
+    <div class="row"><div class="lab c">Temas</div><div>Propuestas, flujo de caja, valor del dinero en el tiempo, comparación de alternativas, activos intangibles, y el proceso de decisión: entender el problema real → identificar soluciones factibles → definir criterios → evaluar → elegir → monitorear.</div></div>
+    <div class="row"><div class="lab e">Ejemplo</div><div>¿Programar el sistema de facturación desde cero ($30 000, 6 meses) o pagar uno existente ($200/mes)? Si eliges el primero «porque es más bonito», el SWEBOK te mira con decepción. Es lo que el profe pide cuando dice «¿.NET contra qué lo evaluaste?».</div></div>
+    <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 288 (15-1)</span> Introduction y figura de temas en <span class="ref">p. 289</span></div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Práctica profesional <span class="en">· professional practice</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Forma de prestar servicios cumpliendo ciertos estándares o criterios, tanto en el proceso como en el producto. Aplica a profesiones con cuerpo de conocimiento, <b>código de ética</b>, certificación y sociedades profesionales (ACM, IEEE).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 274 (14-1)</span></div></div>
+    </div>
+    <div class="card">
+      <h4>Seguridad de software <span class="en">· software security</span></h4>
+      <div class="row"><div class="lab d">SWEBOK</div><div>Es mucho mejor <b>diseñar</b> la seguridad dentro del software que parcharla después. Hay que considerarla en cada etapa (requisitos, diseño, construcción, pruebas) y en el mantenimiento. Las vulnerabilidades también llegan por componentes de terceros (librerías, COTS, SO).</div></div>
+      <div class="row"><div class="lab x">Dónde</div><div><span class="ref">p. 264 (13-1)</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. CLASE ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 7 · Slides 03a y 01b · lo que se cruza con el SWEBOK</div><h2>Lo de clase que te pueden mezclar</h2></div>
+  <p class="lead">El control es del SWEBOK, pero el profe repite que la taxonomía de Sommerville y las métricas son «preguntas garantizadas». Aquí lo mínimo para no confundir fuentes.</p>
+
+  <div class="warn"><b>La trampa más probable:</b> el SWEBOK divide los RNF en <b>restricciones de tecnología</b> y <b>calidad de servicio</b>. Sommerville (clase) los divide en <b>Producto / Organizacional / Externo</b>. Las dos son válidas; responde con la de la fuente que te pidan.</div>
+
+  <table>
+    <tr><th style="width:17%">Sommerville</th><th style="width:38%">Subtipos</th><th>RNF modelo con métrica</th></tr>
+    <tr><td><b>Producto</b></td><td><b>Eficiencia</b> (rendimiento, espacio) · <b>Usabilidad</b> · <b>Dependability</b> (disponibilidad, confiabilidad, robustez, reparabilidad, mantenibilidad) · <b>Seguridad</b></td><td>«El 95 % de las consultas de notas responderá en ≤ 2 s con 3 000 usuarios concurrentes» (Producto · eficiencia · rendimiento).</td></tr>
+    <tr><td><b>Organizacional</b></td><td><b>Ambiental</b> (plataforma, portabilidad) · <b>Operacional</b> (entrega, uso, interoperabilidad) · <b>De desarrollo</b> (lenguaje, método, estándares)</td><td>«El sistema funcionará en Windows 11 y Ubuntu 24.04 con ≤ 5 % de código dependiente de la plataforma» (Organizacional · ambiental).</td></tr>
+    <tr><td><b>Externo</b></td><td><b>Regulatorio</b> · <b>Ético</b> · <b>Legislativo</b> (contable, safety, seguridad)</td><td>«El sistema cumplirá la Ley Orgánica de Protección de Datos Personales; el 100 % de los datos personales se cifrará en reposo» (Externo · legislativo).</td></tr>
+  </table>
+
+  <div class="grid2">
+    <div class="mini"><b class="t">Métricas que debes tener a mano (slides 23–30)</b>
+      <ul style="margin-bottom:0">
+        <li><b>Rendimiento:</b> tiempo de respuesta promedio/máximo, transacciones por segundo, tiempo de refresco de pantalla</li>
+        <li><b>Espacio:</b> KB, número de chips de RAM</li>
+        <li><b>Usabilidad:</b> horas de capacitación, tiempo por tarea, errores por hora</li>
+        <li><b>Confiabilidad:</b> MTTF, probabilidad de no disponibilidad, tasa de fallas, % disponibilidad entre ciertas horas</li>
+        <li><b>Robustez:</b> tiempo de reinicio (MTTR), % de eventos que causan falla, probabilidad de corrupción de datos</li>
+        <li><b>Mantenibilidad:</b> tiempo para hacer un cambio simple/moderado/complejo</li>
+        <li><b>Portabilidad:</b> número de plataformas, % de sentencias dependientes de plataforma</li>
+      </ul></div>
+    <div class="mini"><b class="t">Ejemplo de clasificación tipo examen</b>
+      «El sistema estará disponible el 99 % del tiempo entre las 08h00 y la medianoche».<br>→ <b>Producto · dependability · availability</b>. Le falta: ¿para qué usuarios?, ¿cómo y en qué período se mide?<br><br>
+      <b class="t">Actividades del proceso</b>
+      <b>Sommerville (4):</b> especificación, desarrollo, validación, evolución.<br>
+      <b>Pressman (5):</b> comunicación, planificación, modelado, construcción, despliegue.<br>
+      <b>SWEBOK:</b> habla de procesos técnicos, de gestión técnica, organizacionales y de acuerdo (ISO 12207) <span class="ref">p. 224</span>.</div>
+  </div>
+
+  <div class="note" style="margin-top:8pt"><b>Recuerda el estilo del profe:</b> 2 o 3 líneas, sin relleno, sin inventar. Si citas otra fuente, nómbrala (p. ej., «según Sommerville…»). Si no sabes, mejor en blanco que «chueco».</div>
+</section>
+
+<!-- ============ 8. TRAMPAS ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 8 · 5 minutos que te salvan puntos</div><h2>Parejas que se confunden</h2></div>
+  <table>
+    <tr><th style="width:30%">Pareja</th><th>La diferencia en una línea</th></tr>
+    <tr><td><b>Requisito de producto vs. de proyecto</b></td><td>Producto: qué hace/cumple el software. Proyecto: costo, plazo, personal del proyecto que lo construye.</td></tr>
+    <tr><td><b>Restricción de tecnología vs. calidad de servicio</b></td><td>Tecnología: nombra una tecnología (Java, Android). Calidad de servicio: un nivel de desempeño (2 s, 99 %).</td></tr>
+    <tr><td><b>Incompletitud vs. ambigüedad</b></td><td>Incompleto: falta información. Ambiguo: la información está, pero se entiende de varias formas.</td></tr>
+    <tr><td><b>Desarrollo vs. gestión de requisitos</b></td><td>Desarrollo: llegar a un acuerdo. Gestión: mantener el acuerdo en el tiempo.</td></tr>
+    <tr><td><b>Elicitación vs. análisis</b></td><td>Elicitar: sacar requisitos candidatos. Analizar: entender su significado, propiedades y conflictos.</td></tr>
+    <tr><td><b>Validación de requisitos vs. verificación</b></td><td>Validar: ¿son las necesidades verdaderas? (producto correcto). Verificar: ¿cumple lo especificado? (producto bien hecho).</td></tr>
+    <tr><td><b>Error vs. defecto vs. falla</b></td><td>Persona se equivoca → queda una imperfección en el software → el usuario ve que algo no funciona.</td></tr>
+    <tr><td><b>Scrubbing vs. scope matching</b></td><td>Scrubbing: quitar requisitos innecesarios y simplificar. Scope matching: que el alcance quepa en costo, plazo y personal.</td></tr>
+    <tr><td><b>Iterativo vs. incremental</b></td><td>Iterativo: ciclos que repiten y mejoran. Incremental: cada iteración <b>agrega</b> funcionalidad hasta completar.</td></tr>
+    <tr><td><b>Cascada vs. espiral</b></td><td>Cascada: predictiva y dirigida por documentos. Espiral: evolutiva y dirigida por riesgos.</td></tr>
+    <tr><td><b>Ágil vs. Scrum</b></td><td>Ágil es una mentalidad (valores y principios), no un método. Scrum es un método ágil.</td></tr>
+    <tr><td><b>Mantenimiento correctivo vs. preventivo</b></td><td>Correctivo: el problema ya apareció. Preventivo: lo arreglas antes de que aparezca.</td></tr>
+    <tr><td><b>Adaptativo vs. perfectivo vs. aditivo</b></td><td>Adaptativo: cambió el ambiente. Perfectivo: mejoras, documentación, refactor. Aditivo: funciones nuevas grandes.</td></tr>
+    <tr><td><b>Incertidumbre vs. riesgo</b></td><td>Incertidumbre: falta de información. Riesgo: su efecto en los objetivos (puede ser bueno o malo).</td></tr>
+    <tr><td><b>SWEBOK vs. Sommerville (RNF)</b></td><td>SWEBOK: tecnología / calidad de servicio. Sommerville: producto / organizacional / externo.</td></tr>
+    <tr><td><b>Def. de IS: SWEBOK vs. Sommerville</b></td><td>SWEBOK: sistemático, disciplinado, <b>cuantificable</b>; desarrollo, <b>operación</b> y mantenimiento. Sommerville: disciplina que cubre todos los aspectos de la producción de software, desde la especificación hasta el mantenimiento.</td></tr>
+  </table>
+</section>
+
+<!-- ============ 9. SIMULACRO ============ -->
+<section class="pb">
+  <div class="sec-head"><div class="kicker">Sección 9 · Tápate las respuestas con la mano</div><h2>Simulacro de control de lectura</h2></div>
+  <p class="lead">Formato real: definición corta + ejemplo. Intenta responder en voz alta antes de leer la respuesta modelo.</p>
+
+  <div class="qa"><div class="q">1. Según el SWEBOK, ¿qué es la ingeniería de software? Dé un ejemplo.</div>
+  <div class="a">Es la aplicación de un enfoque sistemático, disciplinado y cuantificable al desarrollo, la operación y el mantenimiento del software, es decir, aplicar la ingeniería al software (SWEBOK, p. 38). Ej.: desarrollar el sistema de citas de un hospital con requisitos validados, pruebas, control de versiones y métricas de disponibilidad, en vez de programarlo sin método.</div></div>
+
+  <div class="qa"><div class="q">2. ¿Qué es un requisito funcional y qué es uno no funcional? Un ejemplo de cada uno.</div>
+  <div class="a">RF: especifica comportamientos observables: políticas que el software hace cumplir y procesos que realiza (p. 46). Ej.: «el saldo de una cuenta nunca puede ser negativo». RNF: restringe las tecnologías de la implementación; se divide en restricciones de tecnología y de calidad de servicio (p. 46). Ej.: «la consulta de saldo responderá en ≤ 2 s».</div></div>
+
+  <div class="qa"><div class="q">3. ¿Cuáles son los dos problemas principales de requisitos según el SWEBOK?</div>
+  <div class="a">Incompletitud (hay necesidades o detalles que no se revelan a los ingenieros) y ambigüedad (el requisito admite varias interpretaciones y solo una es correcta) (p. 43). Ej.: «enviar la alerta pronto» es ambiguo; no mencionar que hay usuarios sin internet es incompleto.</div></div>
+
+  <div class="qa"><div class="q">4. ¿Qué es un stakeholder? Nombre 4 tipos.</div>
+  <div class="a">Persona, grupo u organización que participa en el proyecto, es afectada por su resultado o puede influir en él (p. 48). Tipos: clientes (pagan), usuarios, entes reguladores, expertos del dominio. (También: personas perjudicadas si el proyecto tiene éxito).</div></div>
+
+  <div class="qa"><div class="q">5. ¿Qué es la elicitación y nombre 4 técnicas?</div>
+  <div class="a">Actividad cuyo objetivo es hacer aflorar requisitos candidatos; reduce la incompletitud y no es pasiva (p. 48). Técnicas: entrevistas, talleres JAD, cuestionarios, prototipos, observación, apprenticing, user story mapping (p. 49).</div></div>
+
+  <div class="qa"><div class="q">6. Explique el filtro de la tecnología perfecta con un ejemplo.</div>
+  <div class="a">Si existiera una computadora infinitamente rápida, con memoria ilimitada, gratis y sin fallas, lo que todavía habría que pedir es funcional; todo lo demás es no funcional (p. 47). Ej.: «registrar una reserva» sigue siendo necesario (RF); «responder en 1 s» deja de importar (RNF).</div></div>
+
+  <div class="qa"><div class="q">7. ¿Qué es la validación de requisitos y cuáles son sus 3 métodos?</div>
+  <div class="a">Ganar confianza en que los requisitos representan las verdaderas necesidades de los stakeholders (p. 57). Métodos: revisiones, simulación y ejecución, y prototipado (p. 57–58). Ej.: mostrar un prototipo de la app al dueño del restaurante para confirmar el flujo del pedido.</div></div>
+
+  <div class="qa"><div class="q">8. ¿Qué es software quality en el contexto de la ingeniería de software?</div>
+  <div class="a">El grado en que un producto de software cumple los requisitos establecidos, considerando que la calidad depende de qué tan bien esos requisitos representan las necesidades y expectativas de los stakeholders (p. 248). Ej.: un sistema que cumple todo lo pedido, pero lo pedido no era lo que el usuario necesitaba, no tiene calidad.</div></div>
+
+  <div class="qa"><div class="q">9. ¿Qué es software configuration management?</div>
+  <div class="a">Aplicar la gestión de configuración durante todo el ciclo de vida para asegurar que los ítems de configuración estén completos y correctos: identificarlos, controlar sus cambios, registrar su estado y verificar su cumplimiento (p. 185). Ej.: usar Git con versiones etiquetadas y una línea base del ERS que solo cambia con una solicitud formal.</div></div>
+
+  <div class="qa"><div class="q">10. ¿Qué es software engineering economics?</div>
+  <div class="a">Área que alinea las decisiones técnicas con los objetivos del negocio; la economía es la ciencia de elegir y la pregunta clave es si invertir aquí los recursos limitados da más valor que otra alternativa (p. 288). Ej.: comparar desarrollar un sistema propio contra comprar uno existente según costo y beneficio.</div></div>
+
+  <div class="qa"><div class="q">11. Diferencie error, defecto y falla con un ejemplo.</div>
+  <div class="a">Error: acción humana con resultado incorrecto. Defecto: imperfección en el producto que no cumple su especificación. Falla: el sistema no puede realizar una función requerida; ocurre al ejecutarse el defecto (p. 248). Ej.: escribir &gt; en vez de &gt;= (error), la línea queda en el código (defecto), un estudiante con 6 aparece reprobado (falla).</div></div>
+
+  <div class="qa"><div class="q">12. ¿Qué es el mantenimiento de software? Nombre 3 tipos con ejemplo.</div>
+  <div class="a">La totalidad de actividades para dar soporte costo-efectivo al software en operación (p. 167). Correctivo: arreglar un bug reportado. Adaptativo: adaptar a una nueva versión del sistema operativo. Perfectivo: refactorizar para mejorar el rendimiento (p. 170–171).</div></div>
+
+  <div class="qa"><div class="q">13. ¿Qué dice el SWEBOK de Scrum?</div>
+  <div class="a">Es el enfoque ágil más orientado a la gestión de proyectos: el Scrum Master gestiona las actividades, cada incremento es un sprint de máximo 30 días, el Product Owner define el product backlog, en cada sprint se prueba y libera una versión funcionando y el Daily Scrum mantiene el trabajo según el plan (p. 242).</div></div>
+
+  <div class="qa"><div class="q">14. Nombre 8 áreas de conocimiento del SWEBOK.</div>
+  <div class="a">Requisitos, Arquitectura, Diseño, Construcción, Pruebas, Operaciones, Mantenimiento, Gestión de configuración (y además: Gestión, Proceso, Modelos y métodos, Calidad, Seguridad, Práctica profesional, Economía, y 3 de fundamentos).</div></div>
+
+  <div class="qa"><div class="q">15. ¿Qué propiedades debe tener un requisito individual según el SWEBOK? Nombre 5.</div>
+  <div class="a">No ambiguo, verificable (cuantificado), vinculante, atómico, que represente necesidades reales, con vocabulario del stakeholder y aceptable para todos (p. 50). Ej. de requisito que falla: «el sistema será rápido» (ambiguo y no verificable).</div></div>
+</section>
+
+<!-- ============ 10. CHULETA ============ -->
+<section class="pb cheat">
+  <style>.cheat .grid3{grid-template-columns:1fr 1fr 1fr 1fr;gap:5pt}.cheat .mini{font-size:8.4pt}.cheat .mini b.t{font-size:9.2pt}</style>
+  <div class="sec-head"><div class="kicker">Sección 10 · Último repaso antes de entrar</div><h2>Chuleta de 1 página</h2></div>
+  <div class="grid3">
+    <div class="mini"><b class="t">Ingeniería de software · p. 38</b>Enfoque <b>sistemático, disciplinado y cuantificable</b> para <b>desarrollar, operar y mantener</b> software.</div>
+    <div class="mini"><b class="t">Software · p. 38</b>Programas + procedimientos + documentación + datos.</div>
+    <div class="mini"><b class="t">18 KAs · p. 38</b>Nuevas en v4: Arquitectura, Seguridad, Operaciones. Ágil y DevOps en casi todas.</div>
+    <div class="mini"><b class="t">Requisito · p. 44–45</b>Propiedad que el software debe exhibir para resolver un problema real.</div>
+    <div class="mini"><b class="t">2 problemas · p. 43</b><b>Incompletitud</b> (falta info) y <b>ambigüedad</b> (varias interpretaciones).</div>
+    <div class="mini"><b class="t">Categorías · p. 45–46</b>Proyecto vs. producto → funcional vs. no funcional → tecnología vs. calidad de servicio.</div>
+    <div class="mini"><b class="t">RF · p. 46</b>Comportamientos observables: <b>políticas</b> y <b>procesos</b>.</div>
+    <div class="mini"><b class="t">RNF · p. 46</b>Restringen tecnologías: <b>tecnología con nombre</b> o <b>nivel de desempeño</b>.</div>
+    <div class="mini"><b class="t">Filtro perfecto · p. 47</b>Computadora infinita: lo que aún pides es RF.</div>
+    <div class="mini"><b class="t">Derivado · p. 48</b>Lo impone el equipo interno, no un stakeholder externo.</div>
+    <div class="mini"><b class="t">Actividades · p. 48</b>Desarrollo (elicitar, analizar, especificar, validar) = acuerdo. Gestión (scrubbing, cambios, alcance) = mantenerlo.</div>
+    <div class="mini"><b class="t">Stakeholder · p. 48</b>Participa, es afectado o influye.</div>
+    <div class="mini"><b class="t">Elicitación · p. 48–50</b>Hacer aflorar requisitos candidatos. Entrevistas, JAD, cuestionarios, prototipos, observación, apprenticing.</div>
+    <div class="mini"><b class="t">Propiedades · p. 50</b>No ambiguo, verificable, vinculante, atómico, real. Conjunto: completo, conciso, consistente, factible.</div>
+    <div class="mini"><b class="t">5 porqués · p. 50</b>Preguntar «¿por qué?» hasta llegar al problema real.</div>
+    <div class="mini"><b class="t">Falla / perfección · p. 50–51</b>Rango de valor de un RNF; elegir el nivel más costo-efectivo.</div>
+    <div class="mini"><b class="t">Conflictos · p. 52</b>Negociar o familia de productos (invariantes vs. variantes).</div>
+    <div class="mini"><b class="t">Especificación · p. 52–56</b>Natural libre, estructurada (actor-acción, casos de uso, historias), por aceptación (ATDD/BDD), por modelos.</div>
+    <div class="mini"><b class="t">Validación · p. 57–58</b>¿Son las necesidades reales? Revisiones, simulación, prototipos.</div>
+    <div class="mini"><b class="t">Priorizar · p. 60</b>Kano: pesa también cuánto enoja que falte.</div>
+    <div class="mini"><b class="t">Trazabilidad · p. 60–61</b>Consistencia + análisis de impacto, hacia atrás y adelante.</div>
+    <div class="mini"><b class="t">Calidad · p. 248</b>Grado en que cumple requisitos que representan bien las necesidades.</div>
+    <div class="mini"><b class="t">Error → defecto → falla · p. 248</b>Persona → software → usuario lo ve.</div>
+    <div class="mini"><b class="t">V&amp;V · p. 257</b>Verificar: bien hecho. Validar: lo correcto.</div>
+    <div class="mini"><b class="t">Proceso · p. 223</b>Actividades que transforman entradas en salidas.</div>
+    <div class="mini"><b class="t">Ciclo de vida · p. 223</b>De la concepción al retiro.</div>
+    <div class="mini"><b class="t">Modelos · p. 226</b>Cascada (predictivo, por documentos), espiral (por riesgos), prototipado, UP/RUP (iterativo e incremental).</div>
+    <div class="mini"><b class="t">Ágil · p. 226–227, 241</b>Abierto al cambio; no es un método; sí documenta. Ciclos cortos, PDCA.</div>
+    <div class="mini"><b class="t">Scrum · p. 242</b>Sprint ≤ 30 días, SM, PO, backlog, daily.</div>
+    <div class="mini"><b class="t">SCM · p. 185</b>Identificar, controlar cambios, registrar estado, verificar los CIs. Línea base p. 191.</div>
+    <div class="mini"><b class="t">Mantenimiento · p. 167–171</b>Soporte costo-efectivo. Correctivo, preventivo, adaptativo, aditivo, perfectivo, emergencia.</div>
+    <div class="mini"><b class="t">Gestión y riesgo · p. 202, 210</b>Planificar, estimar, medir, controlar. Riesgo = efecto de la incertidumbre (+ o −).</div>
+    <div class="mini"><b class="t">Economía · p. 288</b>Ciencia de elegir; alinear técnica con negocio.</div>
+  </div>
+  <div class="ok" style="margin-top:8pt;text-align:center;font-size:10pt"><b>Definición + para qué sirve + ejemplo tuyo.</b> 3 líneas. Si no sabes, en blanco. Respira. Ya leíste más del SWEBOK que el 90 % del curso. 💀☕</div>
+</section>
+
+</body>
+</html>

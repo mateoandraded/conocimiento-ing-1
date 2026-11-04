@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>La app de Doña Rosa</title>
+<style>
+@page { size: A4; margin: 22mm 24mm 22mm 24mm; }
+:root{ --ink:#22252a; --soft:#6b717b; --accent:#d9480f; --line:#e8e8e8; --book:#2b6cb0; }
+*{box-sizing:border-box}
+html,body{margin:0;background:#fff;color:var(--ink)}
+body{font-family:Georgia,"Cambria",serif;font-size:11.6pt;line-height:1.62}
+p{margin:0 0 9pt}
+h1,h2,h3{font-family:"Segoe UI",Arial,sans-serif;margin:0;line-height:1.15}
+.chap{page-break-before:always}
+.chap-num{font-family:"Segoe UI",sans-serif;font-size:10pt;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-bottom:4pt}
+h2{font-size:24pt;font-weight:700;margin-bottom:6pt}
+.intro{font-style:italic;color:var(--soft);margin-bottom:16pt}
+h3{font-size:13pt;font-weight:650;margin:18pt 0 6pt;break-after:avoid}
+b{font-weight:700}
+.def{border-left:3px solid var(--accent);padding:4pt 0 4pt 12pt;margin:12pt 0 14pt;break-inside:avoid;
+  font-family:"Segoe UI",Arial,sans-serif;font-size:10.6pt;line-height:1.5}
+.def .t{font-weight:700;color:var(--accent);font-size:9pt;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:1pt}
+.def .src{display:block;color:var(--soft);font-size:9pt;margin-top:2pt}
+.def.book{border-left-color:var(--book)} .def.book .t{color:var(--book)}
+.aside{color:var(--soft);font-size:10.5pt;margin:10pt 0}
+.dialog{margin:8pt 0 12pt 0;padding-left:14pt}
+.dialog p{margin:0 0 4pt}
+ul,ol{margin:4pt 0 10pt 18pt;padding:0} li{margin:2pt 0}
+.cover{height:250mm;display:flex;flex-direction:column;justify-content:center}
+.cover .k{font-family:"Segoe UI",sans-serif;letter-spacing:.18em;text-transform:uppercase;font-size:9.5pt;color:var(--accent);font-weight:700}
+.cover h1{font-size:38pt;line-height:1.05;margin:10pt 0 14pt}
+.cover p{font-size:12.5pt;color:var(--soft);max-width:130mm}
+.cover .small{font-size:9pt;margin-top:34pt;font-family:"Segoe UI",sans-serif;line-height:1.5}
+table{border-collapse:collapse;width:100%;font-family:"Segoe UI",sans-serif;font-size:10pt;margin:8pt 0 12pt}
+td{padding:5pt 6pt;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{font-weight:600;width:36%}
+tr{break-inside:avoid}
+.qa{break-inside:avoid;margin:0 0 12pt}
+.qa .q{font-family:"Segoe UI",sans-serif;font-weight:650;font-size:10.8pt}
+.qa .a{font-size:10.8pt;color:#3a3f46}
+.cheat{font-family:"Segoe UI",sans-serif;font-size:9.8pt;line-height:1.42}
+.cheat p{margin:0 0 5pt}
+.sep{text-align:center;color:var(--soft);margin:14pt 0;letter-spacing:.5em}
+.legend{font-family:"Segoe UI",sans-serif;font-size:9.5pt;color:var(--soft)}
+.legend span{display:inline-block;width:10pt;height:10pt;vertical-align:-1pt;margin-right:4pt}
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="k">Ingeniería de Software I · Control de lectura</div>
+  <h1>La app de Doña Rosa</h1>
+  <p>Una sola historia, de principio a fin, que recorre todo lo que entra al control: SWEBOK, Scrum (Rubin), historias de usuario (Cohn y Leffingwell), cómo escribir requisitos (Wiegers) y Robertson.</p>
+  <p class="small">Léela de corrido, como un cuento. Los recuadros son lo que escribes en el control:<br>
+  <span style="color:var(--accent);font-weight:700">naranja</span> = SWEBOK · <span style="color:var(--book);font-weight:700">azul</span> = libros (Rubin, Cohn, Leffingwell, Wiegers, Robertson).<br>
+  «p. 46» = página del visor PDF del archivo en <i>material/</i>. Entre paréntesis, la página impresa del libro.<br>
+  Lecturas según los anuncios de Canvas (2026-10-07 y 2026-10-12).</p>
+</section>
+
+<!-- PRÓLOGO -->
+<section class="chap">
+  <div class="chap-num">Prólogo · SWEBOK · Robertson cap. 1</div>
+  <h2>El sobrino</h2>
+  <p class="intro">Qué es el software, qué es la ingeniería de software y por qué los requisitos importan.</p>
+
+  <p>Doña Rosa tiene una panadería frente a la ESPOL. Hace dos años su sobrino le hizo «una app» de pedidos en un fin de semana. Funcionó tres días. Al cuarto cobró dos veces a todos los clientes, nadie supo arreglarla y el sobrino se fue a vivir a España.</p>
+  <p>Ahora Doña Rosa te contrata a ti. Y tú, que ya sabes cómo terminó lo del sobrino, decides hacerlo distinto.</p>
+
+  <div class="def"><span class="t">SWEBOK · Software</span>
+  Programas de computadora junto con sus procedimientos y, posiblemente, la documentación y los datos asociados a la operación del sistema.
+  <span class="src">SWEBOK p. 38, Introducción</span></div>
+
+  <p>El sobrino dejó código y un pasaje de avión. Ni documentación, ni datos ordenados. Eso no es software completo. Y lo que hizo tampoco fue ingeniería:</p>
+
+  <div class="def"><span class="t">SWEBOK · Ingeniería de software (pregunta de cajón)</span>
+  La aplicación de un enfoque <b>sistemático, disciplinado y cuantificable</b> al <b>desarrollo, la operación y el mantenimiento</b> del software.
+  <span class="src">SWEBOK p. 38</span></div>
+
+  <p>Sistemático: él no tenía método. Disciplinado: no seguía reglas. Cuantificable: nunca midió nada. Y la definición no termina en «desarrollo»: incluye <b>operación y mantenimiento</b>, que fue justo lo que reventó.</p>
+
+  <h3>Las verdades de Robertson</h3>
+  <p>Antes de empezar, lees el capítulo 1 de Robertson, «Some Fundamental Truths» (p. 32–43). Son 11 verdades. Las que más vas a usar con Doña Rosa:</p>
+  <ul>
+    <li><b>Los requisitos no tratan de escribir documentos</b>: tratan de descubrir el problema real del negocio (verdad 1).</li>
+    <li>El software debe ser <b>valioso para su dueño</b>, el que paga: el beneficio tiene que superar el costo (verdad 2).</li>
+    <li><b>Construir software no es lo mismo que resolver un problema de negocio</b> (verdad 4). El sobrino construyó software y el problema siguió ahí.</li>
+    <li>Los requisitos no tienen que escribirse, pero <b>sí tienen que llegar a quienes construyen</b> (verdad 5).</li>
+    <li><b>El cliente no siempre te da la respuesta correcta</b> (verdad 6). Robertson dice que trates a cada stakeholder como si pudiera ser Pinocho.</li>
+    <li>Puedes ser tan iterativo como quieras, pero <b>igual tienes que entender lo que el negocio necesita</b> (verdad 8). Tampoco hay bala de plata (verdad 9).</li>
+    <li>Los requisitos <b>deben ser medibles y comprobables</b>. Si no puedes medirlo, «no es un requisito, es una idea ociosa» (verdad 10).</li>
+  </ul>
+  <p class="aside">El SWEBOK agrega: la ciencia descubre; la ingeniería aplica ese conocimiento a problemas reales <b>con recursos limitados</b> (p. 39). Doña Rosa no tiene presupuesto infinito, y por eso toda ingeniería incluye economía.</p>
+</section>
+
+<!-- CAP 1 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 1 · SWEBOK KA 1 · Leffingwell cap. 7</div>
+  <h2>La primera reunión</h2>
+  <p class="intro">Qué es un requisito, los dos problemas que arruinan proyectos y quiénes son los stakeholders.</p>
+
+  <p>Le preguntas a Doña Rosa qué quiere.</p>
+  <div class="dialog"><p>—Una app para que me pidan pan. Que sea rápida. Y que no cobre doble, mijo, por favor.</p></div>
+
+  <div class="def"><span class="t">SWEBOK · Requisito de software</span>
+  Una propiedad que el software debe tener para resolver un problema del mundo real. Formalmente: una condición o capacidad que un usuario necesita para lograr un objetivo, o que el sistema debe cumplir para satisfacer un contrato, estándar u otro documento formal.
+  <span class="src">SWEBOK p. 44–45, sección 1.1</span></div>
+
+  <p>Robertson lo dice más corto: un requisito es algo que el producto debe <b>hacer</b> para apoyar el negocio del dueño, o una <b>cualidad</b> que debe tener para ser aceptable (cap. 1, p. 40).</p>
+
+  <p>En lo que dijo Doña Rosa ya están <b>los dos grandes problemas</b> de los requisitos según el SWEBOK (p. 43):</p>
+  <ul>
+    <li><b>Ambigüedad</b>: «que sea rápida». Admite muchas interpretaciones y solo una es la que ella tiene en la cabeza.</li>
+    <li><b>Incompletitud</b>: lo que <em>no</em> dijo. No mencionó que la mitad de sus clientes paga en efectivo, porque para ella es obvio.</li>
+  </ul>
+  <p>Cada requisito genera decisiones de diseño, código y pruebas. Si uno está mal y lo descubres tarde, el retrabajo crece en cascada (p. 43).</p>
+
+  <h3>No solo Doña Rosa opina</h3>
+  <p>También importan Don Lucho, el cajero; los estudiantes que piden; el repartidor; y la agencia de control sanitario.</p>
+
+  <div class="def"><span class="t">SWEBOK · Stakeholder</span>
+  Cualquier persona, grupo u organización que participa en el proyecto, que es <b>afectada</b> por su resultado o que puede <b>influir</b> en él.
+  <span class="src">SWEBOK p. 48–49, sección 2.1</span></div>
+
+  <p>El SWEBOK incluye incluso a <b>los que pueden salir perjudicados si el proyecto tiene éxito</b> (p. 49). Si la app funciona muy bien, quizá Doña Rosa ya no necesite a Don Lucho en caja. Don Lucho lo sabe, y por eso no está muy entusiasmado con tus entrevistas.</p>
+
+  <p>Leffingwell (cap. 7, p. 156–157) ordena el asunto en dos clases:</p>
+  <div class="def book"><span class="t">Leffingwell cap. 7 · Stakeholders de sistema y de proyecto</span>
+  <b>Stakeholder del sistema</b>: quien usa el sistema directamente, quien trabaja con los resultados de quienes lo usan, o quien se ve afectado por su despliegue y operación. <b>Stakeholder del proyecto</b>: quien tiene interés en el presupuesto y el cronograma, en cómo se desarrolla, o quien va a vender, instalar o mantener el sistema.
+  <span class="src">Leffingwell, <i>Agile Software Requirements</i>, cap. 7, p. 157 (pág. impresa 120)</span></div>
+
+  <p>En la panadería: Don Lucho y los estudiantes son del sistema; la hija de Doña Rosa, que pone la plata, es del proyecto. Leffingwell además clasifica a los del sistema por grados (p. 162): <b>primer grado</b>, los que usan el sistema (estudiantes, Don Lucho); <b>segundo grado</b>, los que usan sus resultados (la hija, que compra harina según los pedidos); <b>tercer grado</b>, los que lo instalan o le dan soporte (tú, cuando se cae).</p>
+  <p>Y no todos participan igual (p. 158): a unos <b>solo se les informa</b>, a otros <b>se les consulta</b>, otros son <b>socios del desarrollo</b> y otros <b>controlan el resultado</b> (Doña Rosa). El que junta todas esas voces en un solo backlog priorizado es el <b>Product Owner</b>.</p>
+
+  <h3>Personas</h3>
+  <p>Para no diseñar para un «usuario» genérico, Leffingwell usa <b>personas</b> (p. 163–165): perfiles concretos de usuarios. La <b>persona primaria</b> necesita una interfaz diseñada específicamente para ella; la <b>secundaria</b> puede usar la interfaz de la primaria. Aquí, la primaria es Valeria, estudiante de 19 años que pide desde el celular entre clases. Don Lucho, que solo revisa pedidos, es secundaria.</p>
+  <p>Reglas de Leffingwell: no inventes personas de la nada; descúbrelas en la investigación. Y si te salen <b>más de tres personas primarias</b>, el alcance es demasiado grande: divide el sistema (p. 165).</p>
+</section>
+
+<!-- CAP 2 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 2 · SWEBOK KA 1 · Elicitación</div>
+  <h2>Sacarle la verdad a la gente</h2>
+  <p class="intro">Qué es elicitar, las técnicas y los 5 porqués.</p>
+
+  <div class="def"><span class="t">SWEBOK · Elicitación</span>
+  Actividad cuyo objetivo es hacer aflorar requisitos candidatos (también se llama captura o descubrimiento). Reduce la incompletitud y <b>no es pasiva</b>: el ingeniero tiene que esforzarse, porque los usuarios no saben describir su trabajo o se callan cosas.
+  <span class="src">SWEBOK p. 48–49, sección 2</span></div>
+
+  <p>Pruebas varias técnicas (SWEBOK p. 49):</p>
+  <ul>
+    <li><b>Entrevistas</b> a Doña Rosa y a Don Lucho, por separado.</li>
+    <li><b>Cuestionarios</b> a 100 estudiantes: ¿a qué hora piden?, ¿cómo pagan?</li>
+    <li><b>Observación</b>: te paras en la panadería a las 7 a. m. y descubres que Don Lucho anota los pedidos especiales en un cuaderno, porque «el sistema de antes se los comía».</li>
+    <li><b>Apprenticing</b> (aprender haciendo): trabajas un turno. A las 4 a. m. amasando entiendes por qué los pedidos grandes deben llegar el día anterior.</li>
+    <li><b>Prototipos</b>: les muestras un dibujo de la app y miras dónde se confunden.</li>
+    <li><b>Talleres de escritura de historias</b> y <b>story mapping</b> (los verás en el capítulo 6).</li>
+  </ul>
+  <p>Rubin (cap. 5, p. 140) tiene una frase que vale para todo este capítulo: <b>los usuarios son mejores críticos que autores</b>. Si les preguntas «¿qué quieres?», no saben. Si les muestras algo, te dicen enseguida qué está mal.</p>
+
+  <h3>Los 5 porqués</h3>
+  <p>Doña Rosa pide un botón para exportar los pedidos a Excel.</p>
+  <div class="dialog">
+    <p>—¿Para qué el Excel? —Para mandárselo a mi hija.</p>
+    <p>—¿Y para qué se lo manda? —Porque ella compra la harina.</p>
+    <p>—¿Y por qué necesita el Excel? —Porque no tiene acceso a la app.</p>
+  </div>
+  <p>El problema real era que la hija necesitaba ver los pedidos. El Excel era una <b>solución</b> disfrazada de requisito. Preguntar «¿por qué?» hasta llegar al problema de verdad son los <b>5 porqués</b>; casi siempre bastan 2 o 3 vueltas (SWEBOK p. 50). Robertson lo llamaría «encontrar el problema real» (cap. 1).</p>
+</section>
+
+<!-- CAP 3 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 3 · SWEBOK KA 1 · Robertson caps. 10 y 11</div>
+  <h2>Ordenar el cuaderno</h2>
+  <p class="intro">Funcionales, no funcionales y restricciones, según el SWEBOK y según Robertson.</p>
+
+  <p>Tienes 60 frases mezcladas. Primero separas las del <b>producto</b> («calcular el total del pedido») de las del <b>proyecto</b> («entregar en diciembre con dos personas y $800»), como pide el SWEBOK (p. 45). Luego divides las del producto:</p>
+
+  <div class="def"><span class="t">SWEBOK · Requisito funcional</span>
+  Especifica <b>comportamientos observables</b> del software: las <b>políticas</b> que debe hacer cumplir y los <b>procesos</b> que debe realizar.
+  <span class="src">SWEBOK p. 46, sección 1.4</span></div>
+
+  <p>Política: «un pedido no puede cobrarse dos veces». Proceso: «registrar un pedido y calcular su total».</p>
+
+  <div class="def"><span class="t">SWEBOK · Requisito no funcional</span>
+  Restringe las <b>tecnologías</b> de la implementación. Se divide en <b>restricciones de tecnología</b> (nombra o prohíbe una tecnología: «debe funcionar en Android») y <b>calidad de servicio</b> (un nivel de desempeño: «confirmar el pedido en menos de 3 segundos»).
+  <span class="src">SWEBOK p. 46, secciones 1.5 a 1.7</span></div>
+
+  <p><b>El truco del SWEBOK</b>: el <b>filtro de la tecnología perfecta</b> (p. 47). Imagina una computadora mágica, infinitamente rápida, gratis y que nunca falla. Lo que todavía tendrías que pedir («registrar el pedido») es funcional. Lo que deja de importar («responder en 3 segundos») es no funcional.</p>
+
+  <h3>La versión de Robertson</h3>
+  <div class="def book"><span class="t">Robertson caps. 10 y 11 · Funcionales vs. no funcionales</span>
+  Un requisito <b>funcional</b> especifica lo que el producto debe <b>hacer</b>: las acciones que realiza para cumplir su razón de existir, expresadas, en lo posible, sin tecnología. Un requisito <b>no funcional</b> describe las <b>cualidades</b> que el producto debe tener: <b>qué tan bien</b> hace lo que hace (rápido, usable, seguro, atractivo).
+  <span class="src">Robertson, <i>Mastering the Requirements Process</i>, cap. 10 p. 254 (223) y cap. 11 p. 276–279 (245–248)</span></div>
+
+  <p>La forma más fácil de recordarlo, según Robertson: <b>los funcionales son verbos y los no funcionales son adjetivos</b> (p. 279). «Registrar el pedido» es un verbo. «En medio segundo» o «solo el supervisor puede modificarlo» son adjetivos del trabajo.</p>
+  <p>Ojo con un detalle fino: un no funcional <b>no cambia la funcionalidad esencial</b>, pero puede <b>agregar funcionalidad</b>. Si solo Doña Rosa puede cambiar precios (seguridad), la app necesita un login. Esa función existe por una razón no funcional (p. 278–279). El SWEBOK dice lo mismo: un RNF puede inducir RF (p. 47).</p>
+  <p>Robertson tiene además un tercer tipo: las <b>restricciones</b> (cap. 1, p. 42), que son requisitos globales. Pueden limitar el proyecto («debe estar lista antes de diciembre») o el diseño («debe ser app de Android y iPhone»).</p>
+  <p>Y trae una historia de terror (p. 276): un sistema de help desk que hacía <b>todo</b> lo funcional bien, y los usuarios se negaron a usarlo. Tenía otra apariencia que sus otras nueve aplicaciones, terminología rara, una base de datos que no aguantaba el volumen y hasta íconos ofensivos. Nadie había preguntado por los no funcionales. Lo llaman producto «estilo soviético».</p>
+  <p>Los tipos de no funcionales de Robertson (plantilla Volere): <b>apariencia</b> (look and feel), <b>usabilidad</b>, <b>rendimiento</b>, <b>operacionales y de ambiente</b>, <b>mantenibilidad y soporte</b>, <b>seguridad</b>, <b>culturales</b> y <b>legales</b>. Y cada uno necesita un <b>fit criterion</b>: una medida que diga si se cumple (cap. 11; plantilla en p. 466–487).</p>
+
+  <p class="aside"><b>Tres clasificaciones, no te confundas:</b> SWEBOK = tecnología / calidad de servicio. Sommerville (clase) = producto / organizacional / externo. Robertson = funcionales / no funcionales (8 tipos Volere) / restricciones. Responde con la del autor que te pregunten.</p>
+</section>
+
+<!-- CAP 4 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 4 · SWEBOK KA 1 · Wiegers cap. 11</div>
+  <h2>¿Esto está bien escrito?</h2>
+  <p class="intro">Qué hace excelente a un requisito y las trampas del lenguaje.</p>
+
+  <p>Agarras una frase: «La app debe ser rápida, bonita y avisar al cliente y/o a Doña Rosa». La miras con los ojos de Wiegers.</p>
+
+  <div class="def book"><span class="t">Wiegers cap. 11 · Características de un requisito excelente</span>
+  Cada requisito debe ser: <b>completo</b>, <b>correcto</b>, <b>factible</b>, <b>necesario</b>, <b>priorizado</b>, <b>no ambiguo</b> y <b>verificable</b>. El conjunto debe ser: <b>completo</b>, <b>consistente</b>, <b>modificable</b> y <b>trazable</b>.
+  <span class="src">Wiegers y Beatty, <i>Software Requirements</i>, cap. 11, p. 236–240 (203–207)</span></div>
+
+  <p>Aplicado a tu frase:</p>
+  <ul>
+    <li><b>No ambiguo</b>: «rápida» falla. Wiegers distingue dos ambigüedades: la que tú mismo ves y la peor, cuando cada lector entiende algo distinto y todos creen que está claro (p. 238).</li>
+    <li><b>Verificable</b>: ¿cómo pruebas «bonita»? Si no se puede probar, cumplirlo es cuestión de opinión.</li>
+    <li><b>Completo</b>: si falta información, se marca <b>TBD</b> (por definir) y se resuelve antes de construir (p. 237).</li>
+    <li><b>Necesario</b>: cada requisito debe tener una buena respuesta a «¿por qué está aquí?».</li>
+  </ul>
+  <p>El SWEBOK da una lista parecida (p. 50): no ambiguo, verificable, vinculante, <b>atómico</b>, que use el vocabulario del stakeholder; y el conjunto completo, conciso, consistente y factible.</p>
+
+  <h3>Cómo se escribe (la plantilla)</h3>
+  <p>Wiegers propone escribir en <b>voz activa</b>, con una palabra clave fija (<b>«deberá»</b>, en inglés <i>shall</i>) y una de estas dos formas (p. 240–241):</p>
+  <ul>
+    <li>Desde el sistema (plantilla EARS): <b>[precondición] [evento disparador] el sistema deberá [respuesta]</b>. «Si el pedido fue pagado, cuando el cliente toque “pagar”, el sistema deberá mostrar “pedido ya pagado”».</li>
+    <li>Desde el usuario: <b>El [clase de usuario] deberá poder [hacer algo] [a un objeto] [condiciones]</b>. «El Cajero deberá poder marcar un pedido como entregado».</li>
+  </ul>
+  <p>Wiegers recomienda <b>no mezclar</b> «deberá», «debería» y «podría» como si significaran prioridades distintas; mejor siempre «deberá» y la prioridad aparte. Un consultor sugería leer cada «debería» como «probablemente no» (p. 242). Si el resultado no es aceptable, cambia la palabra.</p>
+
+  <h3>Las trampas del lenguaje (p. 243–250)</h3>
+  <ul>
+    <li><b>Palabras difusas</b>: rápido, amigable, fácil, eficiente, robusto, «etc.», «entre otros», «normalmente». Wiegers tiene una tabla entera de ellas (tabla 11-2, p. 247).</li>
+    <li><b>«y/o»</b>: deja la interpretación al lector. Di «y», «o» o «cualquier combinación».</li>
+    <li><b>«salvo», «excepto», «pero»</b>: esconden dos requisitos. «Se cobra con la tarjeta, salvo que esté vencida». ¿Y qué pasa si está vencida? Sepáralo en dos.</li>
+    <li><b>Varios requisitos en uno</b>: si se necesitan pruebas distintas, son requisitos distintos.</li>
+    <li><b>Voz pasiva</b>: «el pedido será actualizado». ¿Por quién? ¿El sistema o Don Lucho?</li>
+    <li><b>Valores límite</b>: «hasta 5 panes sin anticipación; de 5 a 10, con un día». ¿Y si son exactamente 5? Usa «5 o menos» y «más de 5 hasta 10».</li>
+    <li><b>Requisitos negativos</b>: «impedir pedidos si no hay stock». Mejor en positivo: «permitir pedidos solo si hay stock».</li>
+    <li><b>Simetría y excepciones olvidadas</b>: si se puede guardar un pedido a medias, ¿se puede recuperar? Si falla el pago, ¿qué pasa?</li>
+  </ul>
+
+  <h3>Cuando dos stakeholders chocan</h3>
+  <p>Doña Rosa quiere que paguen antes de recoger; Don Lucho, al recoger. El SWEBOK propone <b>negociar</b> (sin decidir tú solo) o hacer el sistema <b>configurable</b>, separando lo que todos aceptan de lo que varía (p. 52). Aquí: el cliente elige «pagar ahora» o «pagar al recoger».</p>
+</section>
+
+<!-- CAP 5 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 5 · Wiegers cap. 10 · SWEBOK KA 1</div>
+  <h2>El documento</h2>
+  <p class="intro">La SRS, cómo etiquetar requisitos, las formas de especificar y la validación.</p>
+
+  <p>La hija de Doña Rosa quiere «algo por escrito». Wiegers abre su capítulo 10 con una advertencia: un gerente juntó las ideas de 60 personas en 100 páginas y lo llamó especificación. No lo era: <b>era una pila de información</b> (p. 214).</p>
+
+  <div class="def book"><span class="t">Wiegers cap. 10 · SRS (especificación de requisitos de software)</span>
+  Documento que establece las <b>funciones y capacidades</b> que el sistema debe proveer, sus <b>características</b> y las <b>restricciones</b> que debe respetar. Es la base para planificar, diseñar, programar, probar y documentar. <b>No</b> debe contener detalles de diseño, construcción, pruebas o gestión, salvo restricciones conocidas.
+  <span class="src">Wiegers y Beatty, cap. 10, p. 216 (183)</span></div>
+
+  <p>Lo leen muchos: el cliente, el gerente que estima, los desarrolladores, los testers, soporte, quien escribe el manual, los abogados (p. 217). Por eso Wiegers dice: si una capacidad no está en el acuerdo de requisitos, <b>nadie debería esperar que aparezca en el producto</b>.</p>
+  <p>Cuando la SRS se revisa y se aprueba, queda como <b>línea base</b> (baselining, p. 218): desde ahí se trabaja sobre un acuerdo firmado.</p>
+
+  <h3>Etiquetar cada requisito</h3>
+  <p>Cada requisito necesita un <b>identificador único y persistente</b> (p. 219–221). Tres formas:</p>
+  <ul>
+    <li><b>Número de secuencia</b>: RF-26. Simple, pero no dice nada del contenido.</li>
+    <li><b>Numeración jerárquica</b>: 3.2.4.3. Familiar, pero los números cambian si insertas algo.</li>
+    <li><b>Etiquetas textuales jerárquicas</b> (de Gilb): <b>Pedido.ConfirmarPago</b>. Dicen qué es y no cambian.</li>
+  </ul>
+
+  <h3>La plantilla de Wiegers (figura 10-2, p. 224)</h3>
+  <p>1. Introducción · 2. Descripción general · 3. Funcionalidades del sistema · 4. Requisitos de datos · 5. Interfaces externas · 6. Atributos de calidad · 7. Internacionalización · 8. Otros requisitos. Más glosario y modelos de análisis. Es pariente de la IEEE 830 y la ISO 29148 que usa tu proyecto.</p>
+  <p class="aside">¿Y en ágil? Wiegers dice que los equipos ágiles igual necesitan esta información, solo que no la juntan en un documento único: la reparten en historias y pruebas de aceptación (p. 232).</p>
+
+  <h3>Otras formas de especificar (SWEBOK p. 53–56)</h3>
+  <p>De más suelta a más precisa: <b>lenguaje natural libre</b> («el sistema deberá…», reglas de negocio); <b>lenguaje estructurado</b> (actor-acción, casos de uso, historias de usuario); <b>criterios de aceptación</b> (BDD: «Dado… cuando… entonces…», que ataca la ambigüedad porque una prueba no admite interpretaciones); y <b>modelos</b> (UML, diagramas de estados).</p>
+
+  <h3>¿Es lo que Doña Rosa necesitaba?</h3>
+  <div class="def"><span class="t">SWEBOK · Validación de requisitos</span>
+  Ganar confianza en que los requisitos representan las <b>verdaderas necesidades</b> de los stakeholders. Tres métodos: <b>revisiones</b>, <b>simulación o ejecución</b> y <b>prototipos</b>.
+  <span class="src">SWEBOK p. 57–58, sección 5</span></div>
+  <p>Con el prototipo pasa lo que advierte el SWEBOK (p. 58): Doña Rosa pasa 40 minutos discutiendo el color del botón y cero minutos revisando si el total está bien calculado.</p>
+  <p>Robertson, por su parte, revisa en dos niveles: la <b>Quality Gateway</b> prueba cada requisito individual (bien escrito, no ambiguo, dentro del alcance, comprobable, trazable y sin «enchapado en oro»), y la <b>revisión de la especificación</b> busca lo que falta, prioriza y detecta conflictos (cap. 17, p. 402–403).</p>
+</section>
+
+<!-- CAP 6 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 6 · Rubin cap. 5 · Leffingwell cap. 6 · Cohn</div>
+  <h2>Las tarjetas en la pared</h2>
+  <p class="intro">Historias de usuario: las 3 C, los niveles, INVEST, cómo dividirlas y los spikes.</p>
+
+  <p>El equipo decide trabajar con Scrum. Entonces la SRS gigante se reemplaza por tarjetas. Rubin explica el cambio de mentalidad (cap. 5, p. 124): en el desarrollo secuencial los requisitos son <b>no negociables y detallados desde el inicio</b>; en Scrum se detallan <b>justo a tiempo y justo lo necesario</b>, conversando. Para eso se usan los <b>elementos del product backlog</b> (PBI), y la forma más común de escribirlos son las historias de usuario.</p>
+
+  <div class="def book"><span class="t">Leffingwell cap. 6 · Historia de usuario</span>
+  Una <b>declaración breve de intención</b> que describe algo que el sistema necesita hacer para el usuario. No es una especificación detallada («el sistema deberá…»), sino una expresión <b>negociable</b> de intención.
+  <span class="src">Leffingwell, cap. 6, p. 137–138 (100–101)</span></div>
+
+  <p>La plantilla, que Cohn popularizó en <i>User Stories Applied</i> (Leffingwell p. 140, Rubin p. 128):</p>
+  <p style="text-align:center;font-family:'Segoe UI',sans-serif"><b>Como &lt;rol&gt;, quiero &lt;objetivo&gt; para &lt;beneficio&gt;</b></p>
+  <p>«Como estudiante con clase a las 7, quiero pedir mi pan la noche anterior para no llegar tarde». Leffingwell explica por qué funciona: el rol da la perspectiva del usuario, la actividad es lo que hace el sistema y el beneficio dice <b>por qué</b>, lo que a veces revela una forma más barata de lograr lo mismo (p. 141).</p>
+
+  <h3>Las 3 C</h3>
+  <div class="def book"><span class="t">Rubin cap. 5 · Leffingwell cap. 6 · Cohn cap. 1 · Las 3 C (Ron Jeffries)</span>
+  <b>Card</b> (tarjeta): 2 o 3 frases que capturan la intención; es un recordatorio, no el requisito completo. <b>Conversation</b> (conversación): el diálogo continuo entre equipo, Product Owner y stakeholders donde salen los detalles; la tarjeta es «una promesa de conversar». <b>Confirmation</b> (confirmación): las <b>condiciones de satisfacción</b>, pruebas de aceptación que confirman que la historia está bien hecha.
+  <span class="src">Rubin p. 128–130 (83–85) · Leffingwell p. 139–140 (102–103)</span></div>
+
+  <p>En la tarjeta del pedido nocturno: al reverso, la confirmación dice «verificar que se puede pedir hasta las 22:00», «verificar que el pedido aparece a Don Lucho a las 5:00», «verificar que no se aceptan pedidos de más de 50 panes».</p>
+
+  <h3>Historias de todos los tamaños</h3>
+  <p>Rubin muestra una jerarquía (p. 131–133): <b>épica</b> (meses; demasiado grande para un sprint), <b>feature</b> (semanas), <b>historia</b> o historia «sprintable» (días) y, debajo, <b>tareas</b> (horas; el <i>cómo</i>, no el <i>qué</i>). Un <b>tema</b> es un grupo de historias relacionadas. En la panadería: «Comprar en la panadería» es una épica; «Pagar» es un tema; «Pagar con transferencia» es una historia; «crear la tabla de pagos» es una tarea.</p>
+
+  <h3>INVEST: ¿la historia es buena?</h3>
+  <div class="def book"><span class="t">Rubin cap. 5 · Leffingwell cap. 6 · Cohn cap. 2 · INVEST (Bill Wake)</span>
+  <b>I</b>ndependiente (pocas dependencias con otras) · <b>N</b>egociable (dice el qué y el porqué, no el cómo) · <b>V</b>aliosa (para el cliente o el usuario; la más importante) · <b>E</b>stimable (el equipo puede calcular su tamaño) · <b>S</b>mall, pequeña (cabe en un sprint) · <b>T</b>estable (pasa o no pasa sus pruebas).
+  <span class="src">Rubin p. 133–137 (88–92) · Leffingwell p. 142–148 (105–111)</span></div>
+
+  <p>Detalles que suelen preguntar:</p>
+  <ul>
+    <li><b>Valiosa</b>: «Como desarrollador, quiero migrar la base de datos» es una historia técnica. Solo entra al backlog si el Product Owner entiende su valor; si no, es una <b>tarea</b> (Rubin p. 135–136). Leffingwell propone reescribirla desde el valor: «Como cliente, quiero ver siempre el mismo mensaje de error claro…» (p. 145).</li>
+    <li><b>Valiosa también significa vertical</b>: Leffingwell usa la metáfora del pastel de capas (base de datos, lógica, pantalla). Una historia debe cortar el pastel <b>de arriba abajo</b>; una capa sola no le sirve a nadie (p. 144).</li>
+    <li><b>Pequeña</b> depende de cuándo la vas a hacer: una épica que vas a trabajar en un año está bien que sea grande (Rubin p. 137).</li>
+    <li><b>Testable</b>: palabras como «rápido», «gestionar» o «bonito» son imposibles de probar (Leffingwell p. 148).</li>
+  </ul>
+
+  <h3>Cuando la historia es muy grande</h3>
+  <p>«Como cliente, quiero gestionar mis pedidos». «Gestionar» es la palabra trampa: son muchas operaciones. Leffingwell da <b>10 patrones para dividir</b> (tabla 6-1, p. 149–150): por pasos del flujo, variaciones de reglas de negocio, esfuerzo mayor, simple/complejo, variaciones de datos, métodos de entrada, posponer cualidades (primero que funcione, luego que sea rápido), <b>operaciones CRUD</b> (crear, ver, editar, cancelar pedido), escenarios de casos de uso y separar un <b>spike</b>.</p>
+
+  <h3>Cuando nadie sabe cómo hacerlo: spikes</h3>
+  <div class="def book"><span class="t">Leffingwell cap. 6 · Rubin cap. 5 · Spike / historia de adquisición de conocimiento</span>
+  Historia especial para <b>reducir riesgo e incertidumbre</b>: investigar una tecnología, entender una historia demasiado grande o probar un enfoque. Produce <b>información</b> (una decisión, un prototipo), no código funcionando. Puede ser <b>técnico</b> (cómo construirlo) o <b>funcional</b> (cómo interactuará el usuario). Debe ser la excepción, no la regla.
+  <span class="src">Leffingwell p. 151–153 (114–116) · Rubin p. 138–140 (93–95)</span></div>
+  <p>Rubin lo justifica con plata (p. 139–140): si probar dos arquitecturas cuesta $10K y equivocarse costaría $500K, vale la pena (la información vale $250K). Si equivocarse costara solo $15K, mejor tira una moneda.</p>
+
+  <h3>No funcionales en ágil</h3>
+  <p>Rubin dice que los no funcionales son <b>restricciones de todo el sistema</b> y que el mejor lugar para ellos es la <b>Definition of Done</b>: si «debe funcionar en Chrome y Safari» está ahí, ninguna historia está terminada hasta probarse en ambos (p. 138).</p>
+
+  <h3>¿De dónde salen las historias?</h3>
+  <p>Rubin propone dos técnicas (p. 140–143). El <b>taller de escritura de historias</b>: Product Owner, equipo y stakeholders hacen lluvia de ideas por unas horas, empezando por los roles de usuario. Y el <b>story mapping</b> (Jeff Patton): las épicas arriba, los temas ordenados de izquierda a derecha según el flujo del usuario y, debajo de cada uno, las historias ordenadas por prioridad. Es un backlog en dos dimensiones.</p>
+
+  <h3>Lo que pide Cohn</h3>
+  <p class="aside">El libro de Cohn (caps. 1, 2, 7, 12, 13 y 14) <b>no está en el Aula Virtual ni en el vault</b>, así que aquí solo va lo que Rubin y Leffingwell citan de él, más el tema de cada capítulo para que sepas qué buscar si consigues el libro. Cap. 1: qué es una historia (las 3 C). Cap. 2: escribir historias (INVEST). Cap. 7: pautas para buenas historias. Cap. 12: qué <b>no</b> son las historias (no son requisitos IEEE 830, ni casos de uso, ni escenarios). Cap. 13: por qué usar historias. Cap. 14: señales de historias problemáticas. Si el control pregunta por estos capítulos, responde con las ideas de este capítulo y nombra a Cohn como el autor de la plantilla «Como… quiero… para…».</p>
+</section>
+
+<!-- CAP 7 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 7 · Rubin caps. 2 y 4 · Slides 03b</div>
+  <h2>El primer sprint</h2>
+  <p class="intro">Scrum completo: roles, actividades, artefactos, sprints y la Definition of Done.</p>
+
+  <div class="def book"><span class="t">Rubin cap. 2 · Qué es Scrum</span>
+  Scrum <b>no es un proceso estandarizado</b> de pasos que garantizan un buen producto a tiempo. Es un <b>marco para organizar y gestionar el trabajo</b>, basado en valores, principios y prácticas, sobre el que cada organización agrega sus propias prácticas de ingeniería. El resultado es «una versión de Scrum que es únicamente tuya».
+  <span class="src">Rubin, <i>Essential Scrum</i>, cap. 2, p. 58 (13) · slide 03b p. 5</span></div>
+  <p>Rubin lo compara con un edificio: los valores, principios y prácticas son los cimientos y las paredes. No los puedes quitar sin que se caiga, pero puedes decorar por dentro (p. 58). Las slides añaden que Scrum trabaja en iteraciones cortas con duración fija, de una semana a un mes (p. 4).</p>
+
+  <h3>Los tres roles</h3>
+  <ul>
+    <li><b>Product Owner</b>: el punto central de liderazgo del producto. Es la <b>única autoridad</b> que decide qué se construye y en qué orden, y es responsable del éxito de la solución (p. 60). En la panadería no es Doña Rosa: es tu compañera Andrea, que habla con ella todos los días.</li>
+    <li><b>ScrumMaster</b>: un coach. Ayuda a entender y vivir los valores y prácticas de Scrum, protege al equipo de interferencias y elimina impedimentos. <b>No tiene autoridad para controlar al equipo</b>; no es un jefe de proyecto. Es líder, no gerente (p. 61).</li>
+    <li><b>Equipo de desarrollo</b>: grupo <b>multifuncional</b> (programadores, testers, diseñadores) que se <b>autoorganiza</b> para lograr el objetivo. Típicamente <b>de 5 a 9 personas</b>; si son 35, se arman 4 o más equipos (p. 61).</li>
+  </ul>
+  <p>Resumen de Rubin (p. 60): el Product Owner decide <b>qué</b> y en qué orden; el ScrumMaster guía el <b>proceso</b>; el equipo decide <b>cómo</b>.</p>
+
+  <h3>El recorrido de un sprint (figura 2.3, p. 62)</h3>
+  <ol>
+    <li>Andrea tiene la visión de la app. Con el <b>grooming</b> (refinamiento) la parte en features: crear, refinar, estimar y priorizar elementos. Esa lista ordenada es el <b>product backlog</b> (p. 63–64). Puede tener features, cambios, defectos y mejoras técnicas, y cambia todo el tiempo.</li>
+    <li>Antes de ordenar hay que saber el tamaño: se usan medidas relativas como <b>story points</b> o días ideales. Si «pagar» mide 2 y «delivery» mide 8, delivery es unas 4 veces más grande (p. 65).</li>
+    <li>En el <b>sprint planning</b>, Product Owner, equipo y ScrumMaster acuerdan un <b>sprint goal</b> («los estudiantes pueden pedir y pagar desde el celular») y eligen lo que el equipo puede terminar a un <b>ritmo sostenible</b> (p. 66–67).</li>
+    <li>El equipo divide cada feature en tareas estimadas en horas. Esas tareas, más los elementos elegidos, forman el <b>sprint backlog</b>. Según las slides, <b>ninguna tarea debe pasar de 16 horas</b> (p. 25). Para un sprint de 2 a 4 semanas, la planificación toma de 4 a 8 horas (Rubin p. 67).</li>
+    <li><b>Ejecución del sprint</b>: nadie le dice al equipo en qué orden hacer las tareas; se autoorganiza (p. 68).</li>
+    <li>Cada día, el <b>daily scrum</b>: 15 minutos o menos, idealmente a la misma hora. Cada uno responde: ¿qué hice desde el último daily?, ¿qué haré hasta el próximo?, ¿qué me bloquea? <b>No es para resolver problemas ni es una reunión de estado para un jefe</b>: es inspección, sincronización y planificación diaria (p. 69).</li>
+    <li>Al final queda un <b>incremento de producto potencialmente entregable</b>: terminado según la Definition of Done. «Potencialmente» significa que <b>se podría</b> entregar; entregarlo de verdad es una decisión de negocio (p. 70–71).</li>
+    <li><b>Sprint review</b>: equipo y stakeholders inspeccionan <b>el producto</b>. Doña Rosa prueba la app y opina (p. 71).</li>
+    <li><b>Sprint retrospective</b>: el equipo inspecciona <b>el proceso</b>: qué funcionó con Scrum y qué no, y se compromete a mejoras para el próximo sprint (p. 72–73).</li>
+  </ol>
+  <p>Para el control: <b>3 roles</b> (PO, ScrumMaster, equipo); <b>actividades</b> (sprint, planning, grooming, ejecución, daily, review, retro); <b>3 artefactos</b> (product backlog, sprint backlog, incremento potencialmente entregable) (figura 2.1, p. 59). La review mira el producto y la retro mira el proceso.</p>
+  <p>Los <b>8 valores</b> de Scrum según Rubin y las slides (p. 58; slide p. 40): honestidad, apertura, valentía, respeto, enfoque, confianza, empoderamiento y colaboración.</p>
+  <p class="aside">Dato curioso de Rubin (p. 70): Scrum usaba «cerdos» y «gallinas». En un desayuno de huevos con jamón, la gallina está involucrada, pero el cerdo está comprometido. En el daily solo hablan los cerdos. (Ese día Don Lucho fue gallina.)</p>
+
+  <h3>Las reglas del sprint (Rubin cap. 4)</h3>
+  <div class="def book"><span class="t">Rubin cap. 4 · Sprint</span>
+  Los sprints son el <b>esqueleto</b> de Scrum. Son <b>timeboxed</b> (fecha de inicio y fin fijas), <b>cortos</b> (de una semana a un mes), de <b>duración constante</b>, sin <b>cambios que alteren el objetivo</b> una vez iniciados, y deben terminar según la <b>Definition of Done</b> acordada.
+  <span class="src">Rubin cap. 4, p. 106–107 (61–62)</span></div>
+
+  <p><b>¿Por qué timebox?</b> (p. 107–109): limita el trabajo en proceso (WIP), obliga a priorizar, demuestra avance, evita el perfeccionismo innecesario, motiva a terminar y mejora la predictibilidad.</p>
+  <p><b>¿Por qué cortos?</b> (p. 109–111): es más fácil planificar, la retroalimentación llega rápido, el retorno de inversión llega antes, el error queda acotado («si nos equivocamos, perdimos solo dos semanas»), el entusiasmo se mantiene y hay más puntos de control. Rubin cuenta que en IBM llamaban «hervir el océano» a los proyectos eternos.</p>
+  <p><b>¿Por qué duración constante?</b> (p. 112–113): da <b>cadencia</b>, un ritmo predecible, y permite calcular la <b>velocidad</b> (cuánto termina el equipo por sprint). No terminar a tiempo <b>no es razón</b> para alargar el sprint.</p>
+
+  <h3>Doña Rosa quiere cambiar el sprint</h3>
+  <p>A mitad del sprint, Doña Rosa pide agregar un programa de puntos para clientes frecuentes. Rubin distingue (p. 114–115):</p>
+  <ul>
+    <li><b>Cambio</b>: altera trabajo o recursos y puede generar desperdicio o aumentar el alcance. El programa de puntos es un cambio, y va al product backlog para un sprint futuro. Rubin usa el ejemplo de alguien que pide buscar sospechosos por foto de sus tatuajes a mitad de sprint.</li>
+    <li><b>Aclaración</b>: un detalle que ayuda a lograr el objetivo. «¿Ordeno los pedidos por hora o por nombre?» «Por hora». Eso sí se permite.</li>
+  </ul>
+  <p>Es una regla, no una ley: si pasa algo económicamente grave (la competencia lanza algo que invalida el sprint, o se cae producción), se puede cambiar. Y si el objetivo queda completamente inválido, el sprint se <b>termina anormalmente</b>: se hace retro y se planifica uno nuevo. Es el último recurso (p. 117–118).</p>
+
+  <h3>¿Cuándo algo está terminado?</h3>
+  <div class="def book"><span class="t">Rubin cap. 4 · Definition of Done vs. criterios de aceptación</span>
+  La <b>Definition of Done</b> es un checklist del trabajo que el equipo debe completar para declarar su trabajo potencialmente entregable (diseño revisado, código revisado, probado, integrado, documentado…). Aplica a <b>todos</b> los elementos. Los <b>criterios de aceptación</b> (condiciones de satisfacción) son <b>propios de cada elemento</b>, los define el Product Owner. Un elemento está terminado solo si cumple <b>ambos</b>.
+  <span class="src">Rubin cap. 4, p. 119–122 (74–77)</span></div>
+  <p>Ejemplo: «pagar con tarjeta» tiene como criterio de aceptación «funciona con Visa, MasterCard y Amex». Pero además debe cumplir la DoD: probado, integrado, en el servidor. Y si el último día queda un defecto importante, <b>no está terminado</b>: vuelve al backlog; el sprint no se alarga (p. 120). La DoD puede ir creciendo con el tiempo (p. 121). Rubin cierra con su hijo: para él, «terminé la tarea» significaba «hice lo que estaba dispuesto a hacer» (p. 123).</p>
+
+  <h3>Burndown, beneficios y límites</h3>
+  <p>El <b>burndown</b> es un gráfico del trabajo pendiente que va bajando sprint a sprint (slides p. 29–31). Beneficios de Scrum según las slides (p. 50): un producto potencialmente entregable en cada sprint, requisitos inestables detectados pronto, todo el equipo conoce el estado del proyecto y se construye confianza con el cliente. Limitaciones (p. 51): más difícil en proyectos grandes, requiere un equipo con habilidades transversales, supone un cliente muy activo y no genera parte de la documentación que exigen algunos estándares.</p>
+  <p class="aside">Ojo: el SWEBOK (p. 242) dice que el Scrum Master «gestiona las actividades». Rubin y las slides dicen que es un coach sin autoridad sobre el equipo. Si preguntan por Scrum según Rubin o la clase, usa la versión de Rubin.</p>
+</section>
+
+<!-- CAP 8 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 8 · SWEBOK KA 1 · Gestión · Robertson cap. 14</div>
+  <h2>Doña Rosa cambia de idea</h2>
+  <p class="intro">Mantener el acuerdo: depurar, controlar cambios, priorizar y rastrear.</p>
+
+  <p>El SWEBOK lo resume así (p. 48): <b>desarrollar requisitos es llegar a un acuerdo</b> sobre qué construir; <b>gestionarlos es mantener ese acuerdo en el tiempo</b>.</p>
+  <div class="dialog"><p>—Mijo, ¿y si la app también tiene un juego para los niños, una inteligencia artificial que recomiende panes y modo oscuro?</p></div>
+  <ul>
+    <li><b>Depuración (scrubbing)</b>: buscar el conjunto más pequeño de requisitos que resuelva el problema. El juego y la IA se van (SWEBOK p. 58).</li>
+    <li><b>Control de cambios</b>: se pide el cambio, se analiza el impacto, alguien decide y se avisa. En ágil, el cambio entra al product backlog y espera su turno (p. 59).</li>
+    <li><b>Ajuste de alcance</b>: que lo prometido quepa en tiempo, plata y personas (p. 59).</li>
+    <li><b>Kano</b>: no basta con ver cuánto le gusta algo al usuario, hay que ver cuánto le enoja que falte. El modo oscuro gusta, pero no poder pagar en efectivo enfurece (p. 60).</li>
+    <li><b>Trazabilidad</b>: seguir el hilo botón → diseño → requisito → entrevista, y al revés para medir el impacto de un cambio (p. 60–61).</li>
+  </ul>
+  <p>Robertson (cap. 14, p. 354–355) agrega que lo iterativo no elimina los requisitos: el negocio genera necesidades todo el tiempo, se analizan continuamente y se descubren requisitos <b>en paralelo</b> con el desarrollo, entregando en pequeños incrementos con mucha conversación con el cliente.</p>
+</section>
+
+<!-- CAP 9 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 9 · SWEBOK KA 10 y 11</div>
+  <h2>¿Por qué Scrum y no cascada?</h2>
+  <p class="intro">Proceso, ciclo de vida, modelos y ágil según el SWEBOK.</p>
+
+  <div class="def"><span class="t">SWEBOK · Proceso y ciclo de vida</span>
+  Un <b>proceso</b> es un conjunto de actividades relacionadas que <b>transforman entradas en salidas</b> (actividad = conjunto de tareas; tarea = acción concreta). Un <b>ciclo de vida</b> es la evolución de un sistema <b>desde que se concibe hasta que se retira</b>.
+  <span class="src">SWEBOK p. 223</span></div>
+
+  <ul>
+    <li><b>Cascada</b>: predictiva y dirigida por documentos; una fase no empieza hasta que termina la anterior (p. 226). Con Doña Rosa, que cambia de idea cada martes, sería un suicidio lento.</li>
+    <li><b>Espiral</b> (Boehm): evolutiva y <b>dirigida por riesgos</b>; cada vuelta ataca primero lo que más miedo da (p. 226).</li>
+    <li><b>Incremental</b>: cada entrega agrega funcionalidad (p. 225). <b>Prototipado rápido</b>: prototipos temprano para recibir opiniones. <b>Proceso Unificado/RUP</b>: iterativo e incremental (p. 226).</li>
+    <li><b>Ágil</b>: abierto al cambio, comunicación con el cliente, entregas pequeñas. Tres mitos que desmiente el SWEBOK (p. 227): ágil <b>no es un método</b> (Scrum sí), <b>no es más rápido porque no documenta</b> y <b>no es desordenado</b>.</li>
+  </ul>
+  <div class="def"><span class="t">SWEBOK · Scrum</span>
+  Método ágil orientado a la gestión de proyectos: sprints de máximo 30 días, Scrum Master, Product Owner con su product backlog, una versión probada y liberada en cada sprint, y Daily Scrum.
+  <span class="src">SWEBOK p. 242</span></div>
+  <p class="aside">Lo mismo que dice Rubin, pero en cinco líneas. Si te preguntan «según el SWEBOK», usa esta tarjeta.</p>
+</section>
+
+<!-- CAP 10 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 10 · SWEBOK KA 12</div>
+  <h2>El croissant de un centavo</h2>
+  <p class="intro">Calidad, y la diferencia entre error, defecto y falla.</p>
+
+  <p>Una noche, cansado, escribes el precio del croissant como <code>0.01</code> en vez de <code>1.00</code>. Dos semanas después alguien lo descubre, lo comparte en el grupo de la carrera, y en una mañana se venden 400 croissants a un centavo. El SWEBOK le pone nombre a cada parte (p. 248):</p>
+  <ul>
+    <li><b>Error</b>: la acción humana equivocada (tú, escribiendo mal).</li>
+    <li><b>Defecto</b>: la imperfección que queda en el software (el <code>0.01</code> durmiendo en la base de datos).</li>
+    <li><b>Falla</b>: el sistema no hace lo que debe y alguien lo ve (los 400 croissants).</li>
+  </ul>
+
+  <div class="def"><span class="t">SWEBOK · Calidad de software</span>
+  El grado en que un producto de software cumple los requisitos establecidos; pero la calidad depende de qué tan bien esos requisitos representan las <b>necesidades, deseos y expectativas</b> de los stakeholders.
+  <span class="src">SWEBOK p. 248 (también p. 246)</span></div>
+  <p>Una app que cumple todo el documento, pero en el documento nadie puso «pago en efectivo», cumple el papel y no sirve. Calidad es cumplir <b>lo correcto</b>.</p>
+  <p><b>Verificar</b> es comprobar que construiste <b>bien</b> el producto; <b>validar</b>, que construiste <b>el producto correcto</b> (p. 257). Y el costo de la calidad (p. 249): prevenir y probar cuesta, pero arreglar después cuesta más.</p>
+</section>
+
+<!-- CAP 11 -->
+<section class="chap">
+  <div class="chap-num">Capítulo 11 · SWEBOK KAs 6, 7, 8, 9 y 15</div>
+  <h2>La vida después del lanzamiento</h2>
+  <p class="intro">Operar, mantener, controlar versiones y decidir con plata.</p>
+
+  <div class="def"><span class="t">SWEBOK · Mantenimiento</span>
+  La totalidad de actividades para dar <b>soporte costo-efectivo</b> al software en operación.
+  <span class="src">SWEBOK p. 167; tipos en p. 170–171</span></div>
+  <p>Tipos: <b>correctivo</b> (arreglar el croissant), <b>preventivo</b> (arreglar el 29 de febrero antes de que llegue), <b>adaptativo</b> (nueva versión de Android), <b>aditivo</b> (agregar delivery), <b>perfectivo</b> (mejorar el código de las 3 a. m.) y <b>de emergencia</b> (parche un viernes a las 11 p. m.).</p>
+
+  <div class="def"><span class="t">SWEBOK · Gestión de configuración (SCM)</span>
+  Aplicar gestión de configuración en todo el ciclo de vida para que los elementos del proyecto estén completos y correctos: <b>identificarlos</b>, <b>controlar sus cambios</b>, <b>registrar su estado</b> y <b>verificar</b> que cumplen.
+  <span class="src">SWEBOK p. 185; línea base en p. 191</span></div>
+  <p>Cuando Doña Rosa jura que nunca pidió algo, abres la versión firmada del documento: la <b>línea base</b>.</p>
+  <p><b>Riesgo</b> (p. 210): la incertidumbre es falta de información; el riesgo es su efecto sobre los objetivos, y puede ser bueno o malo.</p>
+  <div class="def"><span class="t">SWEBOK · Economía de la ingeniería de software</span>
+  Alinea las decisiones técnicas con los objetivos del negocio. La economía es la <b>ciencia de elegir</b>, no del dinero: ¿invertir aquí da más valor que otra alternativa?
+  <span class="src">SWEBOK p. 288</span></div>
+  <p>¿Programas tu propio sistema de pagos o usas uno que cobra comisión? Comparas alternativas. Es lo que el profe quiere oír con «¿y contra qué lo evaluaste?».</p>
+</section>
+
+<!-- EPÍLOGO -->
+<section class="chap">
+  <div class="chap-num">Epílogo</div>
+  <h2>Ya recorriste todo</h2>
+  <p class="intro">Si te piden «8 áreas del SWEBOK», recorre la historia en orden.</p>
+  <table>
+    <tr><td>La reunión y el cuaderno</td><td><b>1. Requisitos</b> (p. 43)</td></tr>
+    <tr><td>El servidor y la app</td><td><b>2. Arquitectura</b> (p. 67) · <b>3. Diseño</b> (p. 83)</td></tr>
+    <tr><td>Programar a las 3 a. m.</td><td><b>4. Construcción</b> (p. 99)</td></tr>
+    <tr><td>Buscar el croissant</td><td><b>5. Pruebas</b> (p. 117)</td></tr>
+    <tr><td>Que la app no se caiga</td><td><b>6. Operaciones</b> (p. 151)</td></tr>
+    <tr><td>Los parches del primer año</td><td><b>7. Mantenimiento</b> (p. 167)</td></tr>
+    <tr><td>«Yo nunca pedí eso»</td><td><b>8. Gestión de configuración</b> (p. 185)</td></tr>
+    <tr><td>Cronograma y riesgos</td><td><b>9. Gestión</b> (p. 202)</td></tr>
+    <tr><td>Elegir Scrum</td><td><b>10. Proceso</b> (p. 221) · <b>11. Modelos y métodos</b> (p. 233)</td></tr>
+    <tr><td>Cumplir lo correcto</td><td><b>12. Calidad</b> (p. 246)</td></tr>
+    <tr><td>Que nadie robe tarjetas</td><td><b>13. Seguridad</b> (p. 264)</td></tr>
+    <tr><td>No mentirle a Doña Rosa</td><td><b>14. Práctica profesional</b> (p. 274)</td></tr>
+    <tr><td>«¿Y cuánto cuesta?»</td><td><b>15. Economía</b> (p. 288)</td></tr>
+    <tr><td>Lo que traes de antes</td><td><b>16–18. Fundamentos</b> de computación, matemáticos y de ingeniería</td></tr>
+  </table>
+
+  <h3>¿Qué libro está en qué capítulo de la historia?</h3>
+  <table>
+    <tr><td>Rubin cap. 2 · Scrum Framework</td><td>Capítulo 7 (p. 58–73 del PDF)</td></tr>
+    <tr><td>Rubin cap. 4 · Sprints</td><td>Capítulo 7 (p. 106–123)</td></tr>
+    <tr><td>Rubin cap. 5 · Requirements and User Stories</td><td>Capítulo 6 (p. 124–143)</td></tr>
+    <tr><td>Leffingwell cap. 6 · User Stories</td><td>Capítulo 6 (p. 136–155)</td></tr>
+    <tr><td>Leffingwell cap. 7 · Stakeholders, Personas, UX</td><td>Capítulo 1 (p. 156–171)</td></tr>
+    <tr><td>Wiegers cap. 10 · Documenting the requirements</td><td>Capítulo 5 (p. 214–235)</td></tr>
+    <tr><td>Wiegers cap. 11 · Writing excellent requirements</td><td>Capítulo 4 (p. 236–253)</td></tr>
+    <tr><td>Robertson caps. 1, 10, 11, 14, 16, 17</td><td>Prólogo y capítulos 3, 5 y 8</td></tr>
+    <tr><td>Cohn caps. 1, 2, 7, 12, 13, 14</td><td>Capítulo 6 (el libro no está en el Aula Virtual)</td></tr>
+    <tr><td>Scrum Institute, <i>The Scrum Framework</i></td><td>Capítulo 7 (no está en el Aula Virtual; las slides 03b lo citan)</td></tr>
+  </table>
+</section>
+
+<!-- PREGUNTAS -->
+<section class="chap">
+  <div class="chap-num">Para practicar</div>
+  <h2>Así te van a preguntar</h2>
+  <p class="intro">Tapa la respuesta, contesta en voz alta y compara. Fórmula: definición + para qué sirve + un ejemplo.</p>
+
+  <div class="qa"><div class="q">1. ¿Qué es la ingeniería de software según el SWEBOK?</div>
+  <div class="a">Aplicar un enfoque sistemático, disciplinado y cuantificable al desarrollo, operación y mantenimiento del software (p. 38). Ej.: hacer la app de una panadería con requisitos validados, pruebas y control de versiones.</div></div>
+
+  <div class="qa"><div class="q">2. Diferencie requisito funcional y no funcional (con ejemplo).</div>
+  <div class="a">Funcional: lo que el producto debe hacer, sus políticas y procesos («registrar el pedido»). No funcional: cualidades, qué tan bien lo hace, o restricciones de tecnología («confirmar en máximo 3 segundos»). Robertson: los funcionales son verbos; los no funcionales, adjetivos.</div></div>
+
+  <div class="qa"><div class="q">3. ¿Qué es un stakeholder? Diferencie stakeholder del sistema y del proyecto (Leffingwell).</div>
+  <div class="a">Quien participa, es afectado o puede influir en el proyecto (SWEBOK p. 48). Del sistema: quien lo usa, usa sus resultados o es afectado por su operación (el cajero). Del proyecto: quien se interesa por presupuesto, cronograma o cómo se desarrolla (el patrocinador) (Leffingwell p. 157).</div></div>
+
+  <div class="qa"><div class="q">4. ¿Qué es una persona primaria y una secundaria?</div>
+  <div class="a">Primaria: usuario que necesita una interfaz diseñada específicamente para él. Secundaria: usa el sistema, pero puede usar la interfaz de la primaria (Leffingwell p. 164). Ej.: el estudiante que pide es primaria; el repartidor que solo consulta, secundaria.</div></div>
+
+  <div class="qa"><div class="q">5. ¿Qué son las 3 C de una historia de usuario?</div>
+  <div class="a">Card: la tarjeta con la intención en pocas frases. Conversation: el diálogo donde salen los detalles. Confirmation: las pruebas de aceptación que confirman que se cumplió (Rubin p. 128–130; Leffingwell p. 139). Ej.: tarjeta «pedir pan la noche anterior», conversación con el PO sobre el horario y confirmación «se acepta hasta las 22:00».</div></div>
+
+  <div class="qa"><div class="q">6. ¿Qué significa INVEST? Explique la V.</div>
+  <div class="a">Independiente, Negociable, Valiosa, Estimable, Small (pequeña), Testable. Valiosa: debe aportar valor al cliente o usuario; una historia puramente técnica solo entra si el PO entiende su valor, y si no, es una tarea (Rubin p. 135).</div></div>
+
+  <div class="qa"><div class="q">7. ¿Qué es un spike?</div>
+  <div class="a">Historia para reducir incertidumbre o riesgo; produce información (una decisión, un prototipo), no código funcionando. Puede ser técnico o funcional (Leffingwell p. 151). Ej.: investigar en un sprint qué pasarela de pagos usar antes de comprometer la historia de pagos.</div></div>
+
+  <div class="qa"><div class="q">8. Nombre los roles, las actividades y los artefactos de Scrum.</div>
+  <div class="a">Roles: Product Owner, ScrumMaster, equipo de desarrollo. Actividades: sprint, sprint planning, grooming, ejecución, daily scrum, review y retrospectiva. Artefactos: product backlog, sprint backlog, incremento potencialmente entregable (Rubin p. 59).</div></div>
+
+  <div class="qa"><div class="q">9. Diferencie sprint review y sprint retrospective.</div>
+  <div class="a">Review: se inspecciona y adapta el <b>producto</b>, con stakeholders. Retrospective: se inspecciona y adapta el <b>proceso</b>, solo el equipo Scrum (Rubin p. 71–73).</div></div>
+
+  <div class="qa"><div class="q">10. ¿Qué es la Definition of Done y en qué se diferencia de los criterios de aceptación?</div>
+  <div class="a">DoD: checklist de trabajo que se debe completar para que algo sea potencialmente entregable (probado, integrado, documentado); aplica a todos los elementos. Criterios de aceptación: condiciones propias de cada elemento. Un elemento está terminado solo si cumple ambos (Rubin p. 119–122).</div></div>
+
+  <div class="qa"><div class="q">11. ¿Se puede cambiar el alcance a mitad del sprint?</div>
+  <div class="a">No se permiten cambios que alteren el objetivo; sí aclaraciones. Un cambio va al backlog para otro sprint. Es una regla pragmática: si las consecuencias económicas de no cambiar son peores, se cambia, y si el objetivo queda inválido el sprint se termina anormalmente (Rubin p. 114–118).</div></div>
+
+  <div class="qa"><div class="q">12. Nombre 4 beneficios del timeboxing.</div>
+  <div class="a">Limita el trabajo en proceso, obliga a priorizar, demuestra avance, evita el perfeccionismo, motiva a terminar y mejora la predictibilidad (Rubin p. 107–109).</div></div>
+
+  <div class="qa"><div class="q">13. ¿Qué es una SRS según Wiegers?</div>
+  <div class="a">Documento que establece las funciones y capacidades del sistema, sus características y las restricciones que debe respetar; base para planificar, diseñar, programar y probar. No debe incluir diseño ni gestión (cap. 10, p. 216).</div></div>
+
+  <div class="qa"><div class="q">14. Nombre las características de un requisito excelente según Wiegers.</div>
+  <div class="a">Individual: completo, correcto, factible, necesario, priorizado, no ambiguo y verificable. El conjunto: completo, consistente, modificable y trazable (cap. 11, p. 236–240).</div></div>
+
+  <div class="qa"><div class="q">15. ¿Qué está mal en «El sistema debe cobrar con la tarjeta, salvo que esté vencida, y avisar rápido al cliente y/o al cajero»?</div>
+  <div class="a">«Salvo» esconde un segundo requisito (¿qué pasa si está vencida?); «rápido» es ambiguo y no verificable; «y/o» deja la interpretación al lector; y hay varios requisitos en uno (Wiegers cap. 11). Reescritura: «Si la tarjeta está vigente, el sistema deberá cobrar el pedido. Si está vencida, el sistema deberá pedir otra tarjeta. Tras cobrar, el sistema deberá notificar al cliente en máximo 10 segundos».</div></div>
+
+  <div class="qa"><div class="q">16. ¿Qué es la calidad de software según el SWEBOK?</div>
+  <div class="a">El grado en que el software cumple sus requisitos, siempre que esos requisitos representen bien las necesidades de los stakeholders (p. 248).</div></div>
+
+  <div class="qa"><div class="q">17. Diferencie error, defecto y falla.</div>
+  <div class="a">Error: acción humana equivocada. Defecto: imperfección que queda en el software. Falla: el sistema no hace lo que debe y se nota (SWEBOK p. 248). Ej.: escribir mal un precio; el precio erróneo guardado; los clientes comprando a un centavo.</div></div>
+
+  <div class="qa"><div class="q">18. ¿Qué es software configuration management?</div>
+  <div class="a">Aplicar gestión de configuración en todo el ciclo de vida: identificar los elementos, controlar sus cambios, registrar su estado y verificar que cumplen (SWEBOK p. 185). Ej.: Git con versiones etiquetadas y el ERS firmado como línea base.</div></div>
+</section>
+
+<!-- CHULETA -->
+<section class="chap cheat">
+  <div class="chap-num">Último repaso</div>
+  <h2>La historia en una página</h2>
+
+  <p><b>El sobrino</b> hizo código, no software (programas + documentación + datos). IS = sistemática, disciplinada, cuantificable; desarrollo, operación y mantenimiento (SWEBOK p. 38). Robertson: los requisitos tratan de descubrir el problema real; el cliente puede ser Pinocho; si no se puede medir, es una idea ociosa.</p>
+  <p><b>La reunión.</b> Requisito = propiedad para resolver un problema real. Problemas: ambigüedad e incompletitud. Stakeholder = participa, es afectado o influye. Leffingwell: del sistema vs. del proyecto; grados 1, 2 y 3; personas primarias y secundarias (más de 3 primarias = alcance muy grande).</p>
+  <p><b>El cuaderno.</b> Elicitar = hacer aflorar requisitos; no es pasivo. Usuarios: mejores críticos que autores (Rubin). 5 porqués: el Excel no era el problema.</p>
+  <p><b>Ordenar.</b> SWEBOK: funcional (políticas y procesos) vs. no funcional (tecnología / calidad de servicio); filtro de la computadora mágica. Robertson: funcionales = verbos, no funcionales = adjetivos, más restricciones; 8 tipos Volere; fit criterion.</p>
+  <p><b>¿Bien escrito?</b> Wiegers: completo, correcto, factible, necesario, priorizado, no ambiguo, verificable; el conjunto completo, consistente, modificable y trazable. «Deberá», voz activa, EARS. Trampas: palabras difusas, y/o, «salvo», límites, negativos, excepciones.</p>
+  <p><b>El documento.</b> SRS = funciones, características y restricciones; sin diseño. Etiquetas: secuencia, jerárquica, textual (Pedido.ConfirmarPago). TBD. Línea base. Validar: revisiones, simulación, prototipos.</p>
+  <p><b>Las tarjetas.</b> Historia = declaración breve de intención. «Como… quiero… para…». 3 C: card, conversation, confirmation. Épica → feature → historia → tarea; tema = grupo. INVEST. Corte vertical del pastel. 10 patrones para dividir (CRUD). Spike = compra información. No funcionales en la DoD. Taller de historias y story mapping.</p>
+  <p><b>El sprint.</b> Scrum = marco, no proceso. PO (qué), ScrumMaster (coach, sin autoridad), equipo de 5 a 9 que se autoorganiza (cómo). Backlog → planning (goal + sprint backlog, tareas ≤ 16 h) → ejecución → daily (15 min, 3 preguntas) → incremento → review (producto) → retro (proceso). Sprint: timebox, de 1 semana a 1 mes, constante, sin cambios de objetivo, DoD. Cambio ≠ aclaración. DoD (todos) + criterios de aceptación (cada uno). 8 valores.</p>
+  <p><b>Rosa cambia de idea.</b> Desarrollar = acuerdo; gestionar = mantenerlo. Depurar, control de cambios, ajuste de alcance, Kano, trazabilidad.</p>
+  <p><b>El croissant.</b> Error → defecto → falla. Calidad = cumplir requisitos que reflejan las necesidades reales. Verificar = bien hecho; validar = lo correcto.</p>
+  <p><b>Después.</b> Mantenimiento: correctivo, preventivo, adaptativo, aditivo, perfectivo, emergencia. SCM = identificar, controlar, registrar, verificar. Economía = ciencia de elegir.</p>
+
+  <div class="sep">· · ·</div>
+  <p style="text-align:center">Definición + para qué sirve + un ejemplo. Tres líneas. Si no sabes, en blanco.<br>Y si te quedas en blanco, piensa en Doña Rosa.</p>
+</section>
+
+</body>
+</html>
